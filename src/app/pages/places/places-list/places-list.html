@@ -1,0 +1,21 @@
+<h2>Lugares</h2>
+<div *ngIf="loading">Cargando…</div>
+<div *ngIf="error">{{ error }}</div>
+
+<table *ngIf="!loading && !error">
+  <thead>
+    <tr>
+      <th>Nombre</th><th>Categoría</th><th>Lat/Lon</th><th>Altitud</th><th>Accesible</th><th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of places">
+      <td>{{ p.name }}</td>
+      <td>{{ p.category }}</td>
+      <td>{{ p.latitude }}, {{ p.longitude }}</td>
+      <td>{{ p.elevationMeters }} m</td>
+      <td>{{ p.accessible ? 'Sí' : 'No' }}</td>
+      <td><a [routerLink]="['/admin/places', p.id]">Ver</a></td>
+    </tr>
+  </tbody>
+</table>

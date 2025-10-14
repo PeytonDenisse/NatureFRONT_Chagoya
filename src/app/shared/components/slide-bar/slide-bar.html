@@ -1,0 +1,29 @@
+<div class="side-wrapper" [class.is-collapsed]="collapsed()">
+  <button class="collapse-btn" nz-button nzType="default" (click)="toggle()">
+    <span nz-icon [nzType]="collapsed() ? 'menu-unfold' : 'menu-fold'"></span>
+  </button>
+
+  <ul nz-menu nzMode="inline" class="side-bar" [nzInlineCollapsed]="collapsed()">
+    <li nz-menu-item routerLinkActive="ant-menu-item-selected">
+      <a [routerLink]="['/admin/home']">
+        <span nz-icon nzType="home"></span>
+        <span>Inicio</span>
+      </a>
+    </li>
+
+    <li nz-menu-item routerLinkActive="ant-menu-item-selected">
+      <a [routerLink]="['/admin/places']">
+        <span nz-icon nzType="environment"></span>
+        <span>Lugares</span>
+      </a>
+    </li>
+
+    <li nz-menu-item routerLinkActive="ant-menu-item-selected">
+      <a [routerLink]="['/admin/trails']">
+        <span nz-icon nzType="deployment-unit"></span>
+        <span>Senderos</span>
+      </a>
+    </li>
+  </ul>
+</div>
+<p>slide-bar works!</p>

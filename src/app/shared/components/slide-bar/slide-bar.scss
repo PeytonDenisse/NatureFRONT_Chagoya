@@ -1,0 +1,7 @@
+.side-wrapper{ width:260px; padding:10px; background:#0e0f13; min-height:100vh; }
+.side-wrapper.is-collapsed{ width:80px; }
+.side-bar{ background:transparent; color:#e9ecf1; }
+.ant-menu-item a{ color:#cfd3da; display:flex; gap:8px; align-items:center; }
+.ant-menu-item-selected a{ color:#fff; }
+.collapse-btn{ width:100%; margin-bottom:8px; }
+@media (max-width:900px){ .side-wrapper{ width:100%; min-height:auto; } }
