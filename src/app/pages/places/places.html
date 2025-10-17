@@ -1,0 +1,33 @@
+<!-- quita esto -->
+<!-- <p>places works!</p> -->
+
+<h2>Listado de Lugares</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Nombre</th>
+      <th>Categoría</th>
+      <th>Latitud</th>
+      <th>Longitud</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let place of places; index as i">
+      <td>{{ i + 1 }}</td>
+      <td>{{ place.name }}</td>
+      <td>{{ place.category }}</td>
+      <td>{{ place.latitude | number:'1.4-6' }}</td>
+      <td>{{ place.longitude | number:'1.4-6' }}</td>
+      <td>
+        <!-- Opción A: absoluta -->
+        <a [routerLink]="['/admin','places', place.id]">Ver detalle</a>
+
+        <!-- Opción B: relativa (desde /admin/places) -->
+        <!-- <a [routerLink]="[place.id]">Ver detalle</a> -->
+        <button (click)="showDetail(place)">Console</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

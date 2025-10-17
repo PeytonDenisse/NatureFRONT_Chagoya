@@ -1,0 +1,101 @@
+<div *ngIf="place as p; else loading" class="detail-grid">
+
+  <!-- CARD (IZQUIERDA) -->
+  <section class="detail-card">
+    <!-- Hero con imagen y título -->
+    <div class="hero">
+      <img
+        class="hero-img"
+        [src]="(p.photos?.length ? p.photos[0].url : 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop')"
+        [alt]="p.name"
+      />
+      <div class="hero-overlay"></div>
+      <h1 class="hero-title">{{ p.name }}</h1>
+    </div>
+
+    <!-- Datos con iconos -->
+    <div class="card-body">
+      <div class="kv">
+        <span class="kv-icon" nz-icon nzType="tag"></span>
+        <span class="kv-label">Categoría</span>
+        <span class="kv-value">{{ p.category }}</span>
+      </div>
+
+      <div class="kv">
+        <span class="kv-icon" nz-icon nzType="file-text"></span>
+        <span class="kv-label">Descripción</span>
+        <span class="kv-value">{{ p.description || '—' }}</span>
+      </div>
+
+      <div class="kv">
+        <span class="kv-icon" nz-icon nzType="environment"></span>
+        <span class="kv-label">Coordenadas</span>
+        <span class="kv-value">{{ p.latitude }}, {{ p.longitude }}</span>
+      </div>
+
+      <div class="kv">
+        <span class="kv-icon" nz-icon nzType="arrow-up"></span>
+        <span class="kv-label">Altitud</span>
+        <span class="kv-value">{{ p.elevationMeters ?? '—' }} m</span>
+      </div>
+
+      <div class="kv">
+        <span class="kv-icon" nz-icon nzType="check-circle"></span>
+        <span class="kv-label">Accesible</span>
+        <span class="kv-value">{{ p.accessible ? 'Sí' : 'No' }}</span>
+      </div>
+
+      <div class="kv">
+        <span class="kv-icon" nz-icon nzType="dollar"></span>
+        <span class="kv-label">Entrada</span>
+        <span class="kv-value">{{ p.entryFee != null ? (p.entryFee | currency:'MXN') : '—' }}</span>
+      </div>
+
+      <div class="kv">
+        <span class="kv-icon" nz-icon nzType="clock-circle"></span>
+        <span class="kv-label">Horario</span>
+        <span class="kv-value">{{ p.openingHours || '—' }}</span>
+      </div>
+
+      <!-- Amenities (chips) -->
+      <!-- Amenities (chips) -->
+      <section *ngIf="place">
+        <h3 class="section-title">Amenidades</h3>
+
+        <div *ngIf="place.amenities?.length; else noAmenities" class="chips">
+          <span class="chip" *ngFor="let a of place!.amenities">
+            {{ a.name }}
+          </span>
+        </div>
+
+        <ng-template #noAmenities>
+          <span class="chip chip--muted">Sin amenidades registradas</span>
+        </ng-template>
+      </section>
+
+
+
+      <!-- Galería -->
+      <div class="gallery" *ngIf="p.photos?.length">
+        <div class="gallery-title">
+          <span nz-icon nzType="picture"></span> Galería
+        </div>
+        <div class="gallery-grid">
+          <figure class="g-item" *ngFor="let ph of p.photos">
+            <img [src]="ph.url" [alt]="ph.description || p.name" />
+            <figcaption *ngIf="ph.description">{{ ph.description }}</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAPA (DERECHA) -->
+  <aside class="map-panel">
+    <div id="mini-map" class="mini-map"></div>
+  </aside>
+</div>
+
+<ng-template #loading>
+  <p>Cargando detalle del lugar...</p>
+</ng-template>

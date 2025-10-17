@@ -1,7 +1,12 @@
-.side-wrapper{ width:260px; padding:10px; background:#0e0f13; min-height:100vh; }
-.side-wrapper.is-collapsed{ width:80px; }
-.side-bar{ background:transparent; color:#e9ecf1; }
-.ant-menu-item a{ color:#cfd3da; display:flex; gap:8px; align-items:center; }
-.ant-menu-item-selected a{ color:#fff; }
-.collapse-btn{ width:100%; margin-bottom:8px; }
-@media (max-width:900px){ .side-wrapper{ width:100%; min-height:auto; } }
+.side-bar {
+    width: 300px;
+    min-width: 250px;
+    max-width: 350px;
+    height: 100%;
+    background: white;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+    z-index: 2;
+}
+
+:host { display: block; width: 100%; }
+.side-bar { width: 100%; border-right: none; } /* nz-menu */
