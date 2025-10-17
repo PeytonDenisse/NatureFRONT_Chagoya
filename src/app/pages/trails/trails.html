@@ -1,28 +1,34 @@
-<h2>Listado de Senderos</h2>
+<div class="trails-header">
+  <h2>Listado de Senderos</h2>
+</div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Nombre</th>
-      <th>Distancia (km)</th>
-      <th>Dificultad</th>
-      <th>Tiempo Estimado</th>
-      <th>Loop</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let trail of trails; index as i">
-      <td>{{ i + 1 }}</td>
-      <td>{{ trail.name }}</td>
-      <td>{{ trail.distanceKm | number: '1.1-2' }}</td>
-      <td>{{ trail.difficulty }}</td>
-      <td>{{ formatTime(trail.estimatedTimeMinutes) }}</td>
-      <td>{{ trail.isLoop ? 'Sí' : 'No' }}</td>
-      <td>
-        <button (click)="showDetail(trail)">Console</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="trails-card">
+  <div class="table-wrap">
+    <table class="table trails-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Distancia (km)</th>
+          <th>Dificultad</th>
+          <th>Tiempo Estimado</th>
+          <th>Loop</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let trail of trails; index as i">
+          <td>{{ i + 1 }}</td>
+          <td>{{ trail.name }}</td>
+          <td>{{ trail.distanceKm | number: '1.1-2' }}</td>
+          <td>
+            <span class="difficulty" [ngClass]="trail.difficulty.toLowerCase()">
+              {{ trail.difficulty }}
+            </span>
+          </td>
+          <td>{{ formatTime(trail.estimatedTimeMinutes) }}</td>
+          <td>{{ trail.isLoop ? 'Sí' : 'No' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

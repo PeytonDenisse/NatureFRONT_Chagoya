@@ -35,7 +35,7 @@ export class PlaceDetail implements OnInit, OnDestroy {
     this.placeService.getPlace(this.id).subscribe({
       next: (res) => {
         this.place = res;
-        this.initMiniMap(); 
+        this.initMiniMap();
       },
       error: (err) => console.error('Error al obtener detalle:', err),
     });

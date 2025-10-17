@@ -4,11 +4,8 @@
   <section class="detail-card">
     <!-- Hero con imagen y título -->
     <div class="hero">
-      <img
-        class="hero-img"
-        [src]="(p.photos?.length ? p.photos[0].url : 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop')"
-        [alt]="p.name"
-      />
+      <img class="hero-img" [src]="p.photos[0]?.url" [alt]="p.name" />
+
       <div class="hero-overlay"></div>
       <h1 class="hero-title">{{ p.name }}</h1>
     </div>
@@ -57,8 +54,7 @@
         <span class="kv-value">{{ p.openingHours || '—' }}</span>
       </div>
 
-      <!-- Amenities (chips) -->
-      <!-- Amenities (chips) -->
+     
       <section *ngIf="place">
         <h3 class="section-title">Amenidades</h3>
 
@@ -76,16 +72,11 @@
 
 
       <!-- Galería -->
-      <div class="gallery" *ngIf="p.photos?.length">
-        <div class="gallery-title">
-          <span nz-icon nzType="picture"></span> Galería
-        </div>
-        <div class="gallery-grid">
-          <figure class="g-item" *ngFor="let ph of p.photos">
-            <img [src]="ph.url" [alt]="ph.description || p.name" />
-            <figcaption *ngIf="ph.description">{{ ph.description }}</figcaption>
-          </figure>
-        </div>
+      <div class="gallery-grid">
+        <figure class="g-item" *ngFor="let ph of p.photos | slice:1">
+          <img [src]="ph.url" [alt]="ph.description || p.name" loading="lazy" />
+          <figcaption *ngIf="ph.description">{{ ph.description }}</figcaption>
+        </figure>
       </div>
     </div>
   </section>

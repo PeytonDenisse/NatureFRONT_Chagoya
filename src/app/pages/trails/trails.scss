@@ -1,14 +1,111 @@
-.table {
+:root {
+  --orange-800: #c24c00;
+  --orange-700: #d35400;
+  --orange-600: #e67e22;
+  --orange-100: #fdf1e7;
+  --text-700: #1f2937;
+  --text-500: #4b5563;
+  --line: #e5e7eb;
+}
+
+/* Franja superior con título */
+.trails-header {
+  background: linear-gradient(90deg, var(--orange-700), var(--orange-600));
+  color: white;
+  padding: 18px 28px;
+  border-radius: 14px 14px 0 0;
+  box-shadow: 0 4px 12px rgba(211, 84, 0, 0.25);
+  margin-bottom: -5px; /* conecta visualmente con la tarjeta */
+
+  h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+/* Tarjeta contenedora */
+.trails-card {
+  background: #fff;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  padding-bottom: 10px;
+}
+
+/* Contenedor de tabla */
+.table-wrap {
+  padding: 14px 18px 22px;
+  overflow-x: auto;
+}
+
+/* Tabla */
+.trails-table {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-}
+  border-collapse: separate;
+  border-spacing: 0;
 
-th, td {
-  padding: 8px 10px;
-  border-bottom: 1px solid #e5e7eb;
-}
+  thead th {
+    background: var(--orange-100);
+    color: var(--orange-800);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    padding: 12px 10px;
+    border-bottom: 2px solid var(--orange-600);
+    text-align: left;
+  }
 
-h2 {
-  margin-bottom: 12px;
+  tbody td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--line);
+    color: var(--text-500);
+    vertical-align: middle;
+  }
+
+  tbody tr:nth-child(odd) {
+    background: #fafafa;
+  }
+
+  tbody tr:hover {
+    background: var(--orange-100);
+    transition: background 0.3s ease;
+  }
+
+  /* Columna “Loop” centrada */
+  td:last-child,
+  th:last-child {
+    text-align: center;
+  }
+
+  /* Alineación de número e indicadores */
+  td:nth-child(1),
+  td:nth-child(3) {
+    text-align: right;
+  }
+
+  /* Dificultad con etiquetas de color */
+  .difficulty {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 12px;
+    color: #fff;
+  }
+
+  .difficulty.alta {
+    background: #e74c3c;
+  }
+
+  .difficulty.media {
+    background: #f39c12;
+  }
+
+  .difficulty.baja {
+    background: #27ae60;
+  }
 }
