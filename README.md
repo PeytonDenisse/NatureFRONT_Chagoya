@@ -1,59 +1,113 @@
-# NatureApp
+# 🌿 Nature App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.2.
+Aplicación web desarrollada con **Angular** y **.NET 8 Web API** que permite explorar lugares naturales de México mediante un mapa interactivo, galerías de fotos y fichas detalladas de cada sitio, incluyendo sus senderos, amenidades y coordenadas geográficas.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🧭 Descripción General
 
-```bash
-ng serve
-```
+**Nature App** conecta una interfaz moderna en Angular con una API REST desarrollada en **.NET 8 (C#)**.  
+El objetivo es ofrecer una experiencia de exploración natural intuitiva, visual y educativa.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### 🎯 Objetivos principales:
+- Visualizar lugares naturales en un **mapa interactivo de Mapbox**.  
+- Consultar el detalle completo de cada lugar: descripción, categoría, altitud, accesibilidad, horario y cuota de entrada.  
+- Mostrar **galerías de fotos, amenidades y senderos** asociados.  
+- Permitir navegación lateral y mini mapa por cada lugar.  
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
-```bash
-ng generate component component-name
-```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 🧱 Arquitectura del Proyecto
 
-```bash
-ng generate --help
-```
+El proyecto está compuesto por dos módulos principales:  
+- **Backend (.NET 8 Web API)**  
+- **Frontend (Angular 17+)**
 
-## Building
+---
 
-To build the project run:
+## 📁 Estructura del Proyecto
 
-```bash
-ng build
-```
+| Carpeta / Archivo | Descripción |
+|--------------------|-------------|
+| **backend/** | Proyecto .NET Web API |
+| ├── Controllers/ | Endpoints principales (Places, Trails, Photos...) |
+| ├── Models/ | Entidades del dominio |
+| ├── DTOs/ | Objetos de transferencia de datos |
+| ├── Repositories/ | Acceso a datos y consultas |
+| └── Program.cs | Configuración base del servidor |
+| **frontend/** | Proyecto Angular |
+| ├── core/models/ | Interfaces TypeScript |
+| ├── core/services/ | Servicios HTTP para la API |
+| ├── pages/home/ | Mapa principal con marcadores |
+| ├── pages/place-detail/ | Vista detallada del lugar |
+| ├── pages/trails/ | Lista de senderos |
+| ├── shared/components/slide-bar/ | Sidebar de navegación |
+| ├── environments/ | Configuración (API, Mapbox) |
+| └── assets/ | Recursos e íconos globales |
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 🧪 Endpoints de la API NatureAPI
 
-## Running unit tests
+A continuación se listan los principales endpoints disponibles en la API desarrollada en **.NET 8 Web API**.  
+Todos responden en formato **JSON (application/json)**.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+---
 
-```bash
-ng test
-```
+### 🌍 Places
+| Método | Endpoint | Descripción |
+|--------|-----------|-------------|
+| **GET** | `/api/places` | Obtiene la lista completa de lugares registrados. |
+| **GET** | `/api/places/{id}` | Devuelve el detalle de un lugar específico por su ID. |
+| **POST** | `/api/places` | Crea un nuevo lugar (requiere cuerpo JSON con datos del lugar). |
 
-## Running end-to-end tests
 
-For end-to-end (e2e) testing, run:
+---
 
-```bash
-ng e2e
-```
+### 🥾 TrailsController
+| Método | Endpoint | Descripción |
+|--------|-----------|-------------|
+| **GET** | `/api/trails` | Lista todos los senderos disponibles. |
+| **GET** | `/api/trails/{id}` | Muestra el detalle de un sendero específico. |
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+## ⚙️ Tecnologías Utilizadas
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### 🖥️ Frontend (Angular)
+- **Angular 17+**
+- **TypeScript**
+- **Mapbox GL JS**
+- **NG-Zorro** (componentes UI)
+- **SCSS modular**
+
+### 🧩 Backend (.NET)
+- **ASP.NET Core 8 Web API**
+- **Entity Framework Core**
+- **SQL Server**
+- **DTOs y controladores REST**
+- **CORS habilitado para Angular**
+
+---
+
+## 🌍 Funcionalidades Principales
+
+✅ Mapa interactivo con todos los lugares geolocalizados.  
+✅ Vista de detalle con fotos, horarios, altitud y accesibilidad.  
+✅ Amenidades visualizadas como **chips (tags)**.  
+✅ Senderos del lugar con distancia, dificultad y tiempo estimado.  
+✅ Mini mapa centrado en el punto del lugar dentro del detalle.  
+✅ Interfaz moderna, clara y responsive.  
+
+---
+
+## 🚀 Instalación y Ejecución
+
+### 🔹 Backend (.NET 8)
+1. Clonar el repositorio:
+   ```bash
+   git clone https://github.com/tuusuario/NatureApp.git
+   cd NatureApp/backend
+
+
+
