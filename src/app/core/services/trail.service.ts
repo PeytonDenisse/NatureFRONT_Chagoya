@@ -10,17 +10,17 @@ export class TrailService {
   private http = inject(HttpClient);
   private base = environment.API_URL; 
 
-  /** GET /trails */
+  //GET /trails 
   getTrails(): Observable<TrailDto[]> {
     return this.http.get<TrailDto[]>(`${this.base}/Trails`);
   }
 
-  /** GET /trails/:id */
+  //* GET /trails/:id
   getTrail(id: number): Observable<TrailDto> {
     return this.http.get<TrailDto>(`${this.base}/Trails/${id}`);
   }
 
-  /** GET /places/:placeId/trails  (si tu API expone este endpoint) */
+  // GET /places/:placeId/trails  
   getTrailsByPlace(placeId: number): Observable<TrailDto[]> {
     return this.http.get<TrailDto[]>(`${this.base}/places/${placeId}/Trails`);
   }

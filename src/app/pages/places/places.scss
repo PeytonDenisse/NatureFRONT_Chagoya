@@ -9,7 +9,7 @@
   --line: #e5e7eb;
 }
 
-/* 🔹 Nueva franja superior */
+/* Nueva franja superior */
 .places-header {
   background: linear-gradient(90deg, var(--green-700), var(--green-600));
   color: #fff;
@@ -27,7 +27,7 @@
   }
 }
 
-/* 🔹 Contenedor de la tabla */
+/*  Contenedor de la tabla */
 .places-card {
   background: #fff;
   border-radius: 0 0 16px 16px;
@@ -40,7 +40,7 @@
   overflow-x: auto;
 }
 
-/* 🔹 Tabla (sin cambios de estilo en celdas o botón) */
+/* Tabla (sin cambios de estilo en celdas o botón) */
 .places-table {
   width: 100%;
   border-collapse: separate;
@@ -87,9 +87,7 @@
   }
 }
 
-/* ===================================================== */
-/*  BOTÓN "Ver detalle" — solo dentro del TBODY           */
-/* ===================================================== */
+
 
 .places-table tbody td a.btn-detail {
   all: unset;
@@ -116,7 +114,6 @@
   box-shadow: 0 7px 18px rgba(37, 109, 58, 0.28);
 }
 
-/* Estados del enlace dentro de filas */
 .places-table tbody td a.btn-detail:link,
 .places-table tbody td a.btn-detail:visited,
 .places-table tbody td a.btn-detail:active,
@@ -126,16 +123,13 @@
   outline: none;
 }
 
-/* Evita que se apague el texto */
 .places-table tbody td,
 .places-table tbody tr {
   opacity: 1 !important;
   filter: none !important;
 }
 
-/* ===================================================== */
-/*   Evita que el encabezado "Acciones" herede estilos   */
-/* ===================================================== */
+
 .places-table thead th:last-child {
   all: unset;
   background: var(--sand-50);
@@ -149,7 +143,6 @@
   text-align: left;
 }
 
-/* Limpieza para cualquier enlace dentro de la tabla */
 .places-table a {
   color: inherit;
 }

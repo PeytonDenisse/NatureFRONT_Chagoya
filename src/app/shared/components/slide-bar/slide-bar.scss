@@ -1,12 +1,101 @@
-.side-bar {
-    width: 300px;
-    min-width: 250px;
-    max-width: 350px;
-    height: 100%;
-    background: white;
-    box-shadow: 2px 0 8px rgba(0,0,0,0.05);
-    z-index: 2;
+:root{
+  --blue-800:#1e3a8a;
+  --blue-700:#1d4ed8;
+  --blue-600:#2563eb;
+  --blue-500:#3b82f6;
+  --blue-100:#eaf2ff;
+  --blue-50:#f5f8ff;
+  --text-900:#0f172a;
+  --text-600:#475569;
 }
 
-:host { display: block; width: 100%; }
-.side-bar { width: 100%; border-right: none; } /* nz-menu */
+/* contenedor */
+.side-bar{
+  width:100%;
+  min-width:250px;
+  max-width:350px;
+  height:100%;
+  background:#ffffff;
+  border-right:1px solid rgba(2,6,23,.06);
+  box-shadow:2px 0 18px rgba(2,6,23,.04);
+  padding:14px 12px;
+  border-radius:14px 0 0 14px;
+}
+
+/* quitar borde interno default */
+.side-bar.ant-menu{ border-inline-end:0 !important; background:transparent; }
+
+/* item base */
+.side-bar .ant-menu-item{
+  margin:10px 8px;
+  height:46px; line-height:46px;
+  border-radius:14px;
+  padding-inline:12px !important;
+  transition:background .18s ease, box-shadow .18s ease, transform .06s ease;
+}
+
+/* link + icono */
+.side-bar .ant-menu-item a{
+  display:flex; align-items:center; gap:12px;
+  font-weight:700;
+  color:var(--text-900);
+  letter-spacing:.2px;
+  -webkit-text-fill-color: currentColor; /* evita invertir color en Safari */
+}
+.side-bar .ant-menu-item .anticon{
+  font-size:18px;
+  color:var(--blue-600);
+  opacity:.95;
+}
+
+/* hover */
+.side-bar .ant-menu-item:hover{
+  background:linear-gradient(0deg, rgba(37,99,235,.06), rgba(37,99,235,.06)), var(--blue-50);
+  box-shadow:0 6px 18px rgba(37,99,235,.10);
+}
+.side-bar .ant-menu-item:hover a{ color:var(--blue-700); }
+.side-bar .ant-menu-item:hover .anticon{ color:var(--blue-700); }
+
+/* ===== seleccionado (ruta activa) — SIN texto blanco ===== */
+.side-bar .ant-menu-item-selected{
+  /* pill claro con tinte azul, NO oscuro */
+  background: linear-gradient(0deg, rgba(37,99,235,.10), rgba(37,99,235,.10)), #ffffff !important;
+  border: 1px solid rgba(37,99,235,.22) !important;
+  box-shadow: 0 8px 20px rgba(37,99,235,.14) !important;
+  transform: translateY(-1px);
+}
+.side-bar .ant-menu-item-selected a{
+  color: var(--blue-700) !important;
+  -webkit-text-fill-color: var(--blue-700) !important;
+}
+.side-bar .ant-menu-item-selected .anticon{
+  color: var(--blue-700) !important;
+}
+/* hover sobre seleccionado: conserva legibilidad */
+.side-bar .ant-menu-item-selected:hover{
+  background: linear-gradient(0deg, rgba(37,99,235,.12), rgba(37,99,235,.12)), #ffffff !important;
+}
+.side-bar .ant-menu-item-selected:hover a{ color: var(--blue-800) !important; }
+.side-bar .ant-menu-item-selected:hover .anticon{ color: var(--blue-800) !important; }
+
+/* quitar barrita lateral azul por default */
+.side-bar .ant-menu-item::after{ border-inline-end:0 !important; }
+
+/* foco teclado accesible */
+.side-bar .ant-menu-item:focus-visible{
+  outline:2px solid rgba(37,99,235,.35);
+  outline-offset:2px;
+}
+
+/* separador vertical sutil entre sidebar y contenido */
+:host{ display:block; width:100%; }
+@media (max-width: 768px){
+  .side-bar{ min-width:220px; padding:12px 8px; }
+  .side-bar .ant-menu-item{ margin:8px 6px; height:44px; }
+}
+
+/* color por defecto de enlaces del menú (por si un global los apaga) */
+.side-bar .ant-menu-item a:link,
+.side-bar .ant-menu-item a:visited{
+  color:var(--text-900);
+}

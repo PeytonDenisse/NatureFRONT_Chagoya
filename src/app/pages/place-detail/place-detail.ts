@@ -32,6 +32,8 @@ export class PlaceDetail implements OnInit, OnDestroy {
       return;
     }
 
+    (mapboxgl as any).accessToken = environment.MAPBOX_TOKEN;
+
     this.placeService.getPlace(this.id).subscribe({
       next: (res) => {
         this.place = res;
@@ -41,32 +43,68 @@ export class PlaceDetail implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Inicializa el mini-mapa cuando:
+   * - ya tenemos this.place
+   * - y existe el contenedor con id="mini-map"
+   * Incluye reintento corto por si el *ngIf todavía no pintó el contenedor.
+   */
   private initMiniMap(): void {
     if (!this.place) return;
 
-    requestAnimationFrame(() => {
+    const tryInit = () => {
       const container = document.getElementById('mini-map');
       if (!container) {
-        console.warn("Container 'mini-map' no encontrado.");
+        // Primer intento fallido: esperamos al siguiente frame
+        requestAnimationFrame(() => {
+          const lateContainer = document.getElementById('mini-map');
+          if (!lateContainer) {
+            // Segundo intento breve
+            setTimeout(() => {
+              const lastContainer = document.getElementById('mini-map');
+              if (!lastContainer) {
+                console.warn("Container 'mini-map' no encontrado. Verifica el template.");
+                return;
+              }
+              this.createMap(lastContainer as HTMLDivElement);
+            }, 50);
+          } else {
+            this.createMap(lateContainer as HTMLDivElement);
+          }
+        });
         return;
       }
 
-      (mapboxgl as any).accessToken = environment.MAPBOX_TOKEN;
+      this.createMap(container as HTMLDivElement);
+    };
 
-      this.miniMarker?.remove();
-      this.miniMap?.remove();
+    // Lanzamos en el próximo frame para dar tiempo a que se renderice el *ngIf
+    requestAnimationFrame(tryInit);
+  }
 
-      this.miniMap = new mapboxgl.Map({
-        container,
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [this.place!.longitude, this.place!.latitude],
-        zoom: 12,
-        interactive: false,
-      });
+  /**
+   * Crea el mapa y marcador, asegurando limpieza previa.
+   */
+  private createMap(containerEl: HTMLDivElement): void {
+    if (!this.place) return;
 
+    this.miniMarker?.remove();
+    this.miniMap?.remove();
+
+    this.miniMap = new mapboxgl.Map({
+      container: containerEl,
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [this.place.longitude, this.place.latitude],
+      zoom: 12,
+      interactive: false,
+    });
+
+    this.miniMap.once('load', () => {
       this.miniMarker = new mapboxgl.Marker()
         .setLngLat([this.place!.longitude, this.place!.latitude])
-        .addTo(this.miniMap);
+        .addTo(this.miniMap!);
+      // Ajuste por si el contenedor cambió de tamaño al abrir galería/senderos
+      this.miniMap!.resize();
     });
   }
 

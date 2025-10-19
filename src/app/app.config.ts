@@ -5,7 +5,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideNzIcons } from 'ng-zorro-antd/icon';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
-// 👇 estos son los íconos que estás usando en la sidebar
+
 import { EnvironmentOutline, TagOutline, FileTextOutline, ArrowUpOutline,
   CheckCircleOutline, DollarOutline, ClockCircleOutline, AppstoreOutline } from '@ant-design/icons-angular/icons';
 

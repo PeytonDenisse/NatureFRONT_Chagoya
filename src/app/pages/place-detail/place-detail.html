@@ -5,7 +5,6 @@
     <!-- Hero con imagen y título -->
     <div class="hero">
       <img class="hero-img" [src]="p.photos[0]?.url" [alt]="p.name" />
-
       <div class="hero-overlay"></div>
       <h1 class="hero-title">{{ p.name }}</h1>
     </div>
@@ -54,13 +53,13 @@
         <span class="kv-value">{{ p.openingHours || '—' }}</span>
       </div>
 
-     
-      <section *ngIf="place">
+      <!-- Amenidades -->
+      <section *ngIf="place" class="section-block">
         <h3 class="section-title">Amenidades</h3>
 
         <div *ngIf="place.amenities?.length; else noAmenities" class="chips">
           <span class="chip" *ngFor="let a of place!.amenities">
-            {{ a.name }}
+            {{ a?.name || a }}
           </span>
         </div>
 
@@ -68,24 +67,72 @@
           <span class="chip chip--muted">Sin amenidades registradas</span>
         </ng-template>
       </section>
-
-
-
-      <!-- Galería -->
-      <div class="gallery-grid">
-        <figure class="g-item" *ngFor="let ph of p.photos | slice:1">
-          <img [src]="ph.url" [alt]="ph.description || p.name" loading="lazy" />
-          <figcaption *ngIf="ph.description">{{ ph.description }}</figcaption>
-        </figure>
-      </div>
     </div>
   </section>
 
-  <!-- MAPA (DERECHA) -->
+
   <aside class="map-panel">
     <div id="mini-map" class="mini-map"></div>
   </aside>
 </div>
+
+
+<section *ngIf="place as p" class="section-block">
+  <h3 class="section-title">Senderos</h3>
+
+  <ng-container *ngIf="p.trails?.length; else noTrails">
+    <div class="table-wrapper">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Distancia</th>
+            <th>Dificultad</th>
+            <th>Tiempo estimado</th>
+            <th>Tipo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let t of p.trails">
+            <td>{{ t.name }}</td>
+            <td>{{ t.distanceKm | number:'1.1-1' }} km</td>
+            <td>{{ t.difficulty }}</td>
+            <td>{{ t.estimatedTimeMinutes != null ? (t.estimatedTimeMinutes + ' min') : '—' }}</td>
+            <td>{{ t.isLoop ? 'Loop' : 'Ida y vuelta' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+
+  <ng-template #noTrails>
+    <div class="muted">Este lugar aún no tiene senderos registrados.</div>
+  </ng-template>
+</section>
+
+<section *ngIf="place as p" class="section-block">
+  <h3 class="section-title">Galería</h3>
+
+  <ng-container *ngIf="p.photos && p.photos.length > 1; else noGallery">
+    <div class="gallery-grid">
+      <!-- Evita slice; saltamos la primera con el índice -->
+      <figure class="g-item" *ngFor="let ph of p.photos; let i = index" [hidden]="i === 0">
+        <img
+          [src]="ph?.url"
+          [alt]="ph?.description || p.name"
+          loading="lazy"
+        />
+        <figcaption *ngIf="ph?.description">
+          {{ ph.description }}
+        </figcaption>
+      </figure>
+    </div>
+  </ng-container>
+
+  <ng-template #noGallery>
+    <div class="muted">Aún no hay más fotos para este lugar.</div>
+  </ng-template>
+</section>
 
 <ng-template #loading>
   <p>Cargando detalle del lugar...</p>

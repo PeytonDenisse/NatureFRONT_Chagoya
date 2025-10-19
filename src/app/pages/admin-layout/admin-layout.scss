@@ -1,17 +1,16 @@
 .layout { display: flex; min-height: 100vh; }
 
-/* Sidebar fija a la izquierda, no se encoge */
 .sidebar {
-  flex: 0 0 260px;      /* ancho fijo */
+  flex: 0 0 260px;    
   border-right: 1px solid #eee;
   background: #fff;
-  position: sticky;     /* se mantiene visible al hacer scroll */
+  position: sticky;     
   top: 0;
   height: 100vh;
   overflow: auto;
 }
 
-/* Área de páginas */
+
 .content {
   flex: 1 1 auto;
   padding: 24px;

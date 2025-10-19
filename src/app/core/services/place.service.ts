@@ -11,21 +11,13 @@ import { AmenityDto } from '../models/amenity.models';
 @Injectable({ providedIn: 'root' })
 export class PlaceService {
   private http = inject(HttpClient);
-  private base = environment.API_URL; // e.g. https://localhost:5001/api
-
-  /**
-   * Listado de lugares
-   * GET /api/Places
-   */
+  private base = environment.API_URL; 
+ 
   getPlaces(): Observable<PlaceListDto[]> {
     return this.http.get<PlaceListDto[]>(`${this.base}/Places`);
   }
 
-  /**
-   * Detalle de lugar
-   * GET /api/Places/{id}
-   * Mapeo estricto a tu API: Photos/Url y Amenities (string[] o {id,name}[]).
-   */
+ 
   getPlace(id: number): Observable<PlaceDetailDto> {
     return this.http.get<any>(`${this.base}/Places/${id}`).pipe(
       map((res: any): PlaceDetailDto => {
@@ -41,8 +33,8 @@ export class PlaceService {
             )
           : [];
 
-        // ---- Photos (estricto a tu API) ----
-        // No aceptamos 'images', 'src', 'path' para evitar colar demos.
+        // ---- Photos  ----
+        
         const rawPhotos = res?.Photos ?? res?.photos ?? [];
         const photos = Array.isArray(rawPhotos)
           ? rawPhotos.map((p: any, i: number) => ({
@@ -58,7 +50,7 @@ export class PlaceService {
           : (Array.isArray(res?.Trails) ? res.Trails : []);
 
         const mapped: PlaceDetailDto = {
-          // Campos base tal como vienen del backend (asegúrate que coincidan con tu DTO TS)
+        
           id: res.id,
           name: res.name,
           category: res.category,
@@ -70,7 +62,7 @@ export class PlaceService {
           entryFee: res.entryFee ?? null,
           openingHours: res.openingHours ?? null,
 
-          // Normalizados
+        
           amenities,
           photos,
           trails,
@@ -82,10 +74,7 @@ export class PlaceService {
     );
   }
 
-  /**
-   * Listado global de trails
-   * GET /api/Trails
-   */
+  
   getAllTrails(): Observable<TrailDto[]> {
     return this.http.get<TrailDto[]>(`${this.base}/Trails`);
   }

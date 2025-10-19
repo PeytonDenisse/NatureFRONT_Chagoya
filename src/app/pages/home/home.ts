@@ -87,7 +87,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       bounds.extend([p.longitude, p.latitude]);
 
       // Al abrir el popup, enlazar el click del link a Angular Router
-     // Al abrir el popup, enlazar el click del link a Angular Router
+     
     popup.on('open', () => {
       const popupElement = popup.getElement(); // puede ser null
       if (!popupElement) return; // si no existe, salimos
