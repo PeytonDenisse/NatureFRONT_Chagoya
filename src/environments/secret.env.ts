@@ -1,3 +1,3 @@
 // src/environments/secret.env.ts
-export const API_URL = 'http://localhost:5072/api';
+export const API_URL = 'http://3.15.46.225:8080/api';
 export const MAPBOX_TOKEN = "pk.eyJ1IjoianVhbmZyOTciLCJhIjoiY2x4cnhqZGZpMWUzdTJrb2Qxd2k5Z3huYSJ9.Kp99lB1snn3xzzi26jKy4w";
