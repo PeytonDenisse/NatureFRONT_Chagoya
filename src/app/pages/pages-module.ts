@@ -17,6 +17,15 @@ import { ADMIN_ROUTES } from './pages.routes';
 import { SlideBarComponent } from "../shared/components/slide-bar/slide-bar";
 
 
+
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+
+
+
 @NgModule({
   declarations: [
     
@@ -25,6 +34,7 @@ import { SlideBarComponent } from "../shared/components/slide-bar/slide-bar";
     Place,
     PlaceDetail,
     Trails
+
   ],
   imports: [
     CommonModule,
@@ -33,7 +43,14 @@ import { SlideBarComponent } from "../shared/components/slide-bar/slide-bar";
     NzButtonModule,
     NzIconModule,
     NzTagModule,
-    SlideBarComponent
+    SlideBarComponent,
+    NzButtonModule,
+    NzModalModule,
+    NzSpinModule,
+    NzTabsModule,
+    NzCardModule,
+    NzGridModule,
+    NzTagModule
 ],
   providers: [
     PlaceService,
