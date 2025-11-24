@@ -1,92 +1,205 @@
 :root {
-  --orange-800: #c24c00;
-  --orange-700: #d35400;
-  --orange-600: #e67e22;
-  --orange-100: #fdf1e7;
-  --text-700: #1f2937;
-  --text-500: #4b5563;
-  --line: #e5e7eb;
+  --bg-page: #eef2ff;
+  --bg-card: #ffffff;
+  --purple-main: #8b5cf6;
+  --purple-soft: #ede9fe;
+  --purple-strong: #6d28d9;
+  --text-main: #111827;
+  --text-muted: #6b7280;
+  --border-soft: #e5e7eb;
 }
 
-
-.trails-header {
-  background: linear-gradient(90deg, var(--orange-700), var(--orange-600));
-  color: white;
-  padding: 18px 28px;
-  border-radius: 14px 14px 0 0;
-  box-shadow: 0 4px 12px rgba(211, 84, 0, 0.25);
-  margin-bottom: -5px; 
-  h2 {
-    margin: 0;
-    font-size: 22px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
+/* ===== PAGE WRAPPER (igual que Places) ===== */
+.trails-page {
+  padding: 24px 18px 32px;
+  background: linear-gradient(180deg, #eef2ff 0%, #e0f2fe 18%, #f9fafb 60%);
+  border-radius: 24px;
 }
 
+/* ===== HERO SUPERIOR (mismo layout que Places) ===== */
+.trails-hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 26px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 40%, #111827 100%);
+  color: #f9fafb;
+  box-shadow: 0 24px 55px rgba(15, 23, 42, 0.55);
+  margin-bottom: 18px;
+}
 
+/* Reuso de la misma estructura visual de hero */
+.hero-left h1 {
+  margin: 4px 0 6px;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(248, 250, 252, 0.14);
+}
+
+.hero-badge::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #22c55e;
+}
+
+.hero-sub {
+  margin: 4px 0 16px;
+  font-size: 13px;
+  color: #e5e7eb;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 12px;
+}
+
+.stat-pill {
+  background: rgba(15, 23, 42, 0.65);
+  border-radius: 16px;
+  padding: 10px 14px;
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(248, 250, 252, 0.12);
+}
+
+.stat-pill .label {
+  display: block;
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+.stat-pill .value {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+/* Usa el mismo botón IA que en Places */
+.btn-ia-primary {
+  background: #ffffff;
+  border: none;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.35);
+  font-weight: 700;
+  border-radius: 999px !important;
+  padding-inline: 24px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #111827 !important;
+}
+
+.btn-ia-primary:hover,
+.btn-ia-primary:focus {
+  background: #e5e7eb;
+  color: #111827 !important;
+}
+
+.hero-mini-cards {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.mini-card {
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(248, 250, 252, 0.12);
+  font-size: 11px;
+  color: #e5e7eb;
+}
+
+.mini-label {
+  opacity: 0.7;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.mini-value {
+  font-weight: 600;
+}
+
+/* ===== CARD CONTENEDOR TABLA ===== */
 .trails-card {
-  background: #fff;
-  border-radius: 0 0 16px 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-  overflow: hidden;
-  padding-bottom: 10px;
+  background: var(--bg-card);
+  border-radius: 20px;
+  padding: 18px 20px 20px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+  margin-top: 12px;
 }
-
 
 .table-wrap {
-  padding: 14px 18px 22px;
+  margin-top: 4px;
   overflow-x: auto;
 }
 
-/* Tabla */
+/* ===== TABLA (alineada con Places) ===== */
 .trails-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-collapse: collapse;
+  font-size: 13px;
 
   thead th {
-    background: var(--orange-100);
-    color: var(--orange-800);
-    font-weight: 800;
-    text-transform: uppercase;
-    font-size: 12px;
-    letter-spacing: 0.5px;
-    padding: 12px 10px;
-    border-bottom: 2px solid var(--orange-600);
     text-align: left;
+    padding: 10px 10px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6b7280;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f9fafb;
   }
 
   tbody td {
-    padding: 14px 12px;
-    border-bottom: 1px solid var(--line);
-    color: var(--text-500);
-    vertical-align: middle;
+    padding: 10px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #374151;
   }
 
   tbody tr:nth-child(odd) {
-    background: #fafafa;
+    background: #f9fafb;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #ffffff;
   }
 
   tbody tr:hover {
-    background: var(--orange-100);
-    transition: background 0.3s ease;
+    background: #eef2ff;
+    transition: background 0.15s ease;
   }
 
-  /* Columna “Loop” centrada */
-  td:last-child,
-  th:last-child {
-    text-align: center;
-  }
-
-  /* Alineación de número e indicadores */
   td:nth-child(1),
   td:nth-child(3) {
     text-align: right;
   }
 
-  /* Dificultad con etiquetas de color */
+  td:last-child,
+  th:last-child {
+    text-align: center;
+  }
+
   .difficulty {
     display: inline-block;
     padding: 4px 10px;
@@ -97,14 +210,300 @@
   }
 
   .difficulty.alta {
-    background: #e74c3c;
+    background: #ef4444;
   }
 
   .difficulty.media {
-    background: #f39c12;
+    background: #f59e0b;
   }
 
   .difficulty.baja {
-    background: #27ae60;
+    background: #22c55e;
+  }
+}
+
+
+.trails-table .difficulty {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 85px;       /* ancho mínimo igual para todas */
+  height: 34px;          /* altura fija */
+  padding: 0 12px;       /* margen interno universal */
+
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #ffffff;
+
+  text-align: center;
+  white-space: nowrap;
+}
+
+
+/* ========== MODAL IA TRAILS – DASHBOARD GRÁFICO ========== */
+
+.trails-ia-modal .ant-modal-content {
+  border-radius: 24px;
+  padding: 0;
+  background: #f5f5fb;
+  border: none;
+}
+
+.trails-ia-modal .ant-modal-header {
+  padding: 12px 20px;
+  border-radius: 24px 24px 0 0;
+  background: #4c1d95;
+  color: #f9fafb;
+}
+
+.trails-ia-modal .ant-modal-title {
+  color: #f9fafb;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.trails-ia-modal .ant-modal-body {
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.trails-ia-wrapper {
+  padding: 18px 22px 24px;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+/* Tabs */
+.trails-ia-wrapper .ant-tabs-nav {
+  margin-bottom: 16px;
+}
+
+.trails-ia-wrapper .ant-tabs-tab {
+  font-size: 13px;
+}
+
+.trails-ia-wrapper .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #4c1d95;
+  font-weight: 600;
+}
+
+/* ===== CARDS KPI SUPERIORES ===== */
+.ia-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.ia-card {
+  border-radius: 16px;
+  border: none;
+  background: #ffffff;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+
+  h4 {
+    margin: 0 0 4px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6b7280;
+  }
+
+  .ia-card-kpi {
+    margin: 2px 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .ia-card-sub {
+    margin: 0;
+    font-size: 12px;
+    color: #9ca3af;
+  }
+}
+
+/* primer KPI destacado */
+.ia-card.kpi-main {
+  background: radial-gradient(circle at top left, #f9a8ff 0, #8b5cf6 50%, #4c1d95 100%);
+  color: #f9fafb;
+
+  h4 {
+    color: #e5e7eb;
+  }
+
+  .ia-card-kpi {
+    color: #ffffff;
+  }
+
+  .ia-card-sub {
+    color: #e5e7eb;
+  }
+}
+
+/* ===== GRID DE GRÁFICAS ===== */
+.ia-charts-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.4fr);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.chart-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chart-bar {
+  padding: 6px 2px;
+}
+
+.bar-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.bar-label {
+  font-weight: 600;
+  color: #111827;
+}
+
+.bar-value {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.bar-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #8b5cf6, #ec4899);
+}
+
+.bar-meta {
+  margin-top: 2px;
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+/* lista de perfil de dificultad */
+.list-clean {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+
+  li {
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+    color: #4b5563;
+    margin-bottom: 4px;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: #8b5cf6;
+    margin-top: 5px;
+  }
+}
+
+/* ===== COLUMNAS DE RECOMENDADOS ===== */
+.ia-columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.ranked-list {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  font-size: 12px;
+
+  li {
+    margin-bottom: 6px;
+  }
+
+  .name {
+    font-weight: 600;
+    display: block;
+    color: #111827;
+  }
+
+  .meta {
+    font-size: 11px;
+    color: #6b7280;
+  }
+}
+
+/* ===== INSIGHTS ===== */
+.ia-patterns {
+  margin-top: 4px;
+}
+
+.insights-list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+}
+
+.insights-list li {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  color: #4b5563;
+  margin-bottom: 6px;
+}
+
+.insight-bullet {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #a855f7;
+  margin-top: 6px;
+}
+
+.muted {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .ia-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ia-charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ia-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .trails-ia-wrapper {
+    padding-inline: 14px;
+  }
+
+  .ia-cards-grid {
+    grid-template-columns: 1fr;
   }
 }

@@ -1,101 +1,292 @@
-:root{
-  --blue-800:#1e3a8a;
-  --blue-700:#1d4ed8;
-  --blue-600:#2563eb;
-  --blue-500:#3b82f6;
-  --blue-100:#eaf2ff;
-  --blue-50:#f5f8ff;
-  --text-900:#0f172a;
-  --text-600:#475569;
+:root {
+  --sidebar-bg: #eef2ff;
+  --sidebar-card: #ffffff;
+  --purple-main: #8b5cf6;
+  --purple-soft: #ede9fe;
+  --text-main: #111827;
+  --text-muted: #6b7280;
 }
 
-/* contenedor */
-.side-bar{
-  width:100%;
-  min-width:250px;
-  max-width:350px;
-  height:100%;
-  background:#ffffff;
-  border-right:1px solid rgba(2,6,23,.06);
-  box-shadow:2px 0 18px rgba(2,6,23,.04);
-  padding:14px 12px;
-  border-radius:14px 0 0 14px;
+/* Contenedor general del lateral */
+.sidebar-wrapper {
+  height: 100%;
+  padding: 16px 12px;
+  background: linear-gradient(180deg, #eef2ff 0%, #e0f2fe 40%, #f9fafb 100%);
+  box-sizing: border-box;
+  overflow: hidden;              /* evita scroll propio del sidebar */
 }
 
-/* quitar borde interno default */
-.side-bar.ant-menu{ border-inline-end:0 !important; background:transparent; }
-
-/* item base */
-.side-bar .ant-menu-item{
-  margin:10px 8px;
-  height:46px; line-height:46px;
-  border-radius:14px;
-  padding-inline:12px !important;
-  transition:background .18s ease, box-shadow .18s ease, transform .06s ease;
+/* Panel blanco */
+.sidebar {
+  height: 100%;
+  width: 260px;
+  max-width: 260px;
+  background: var(--sidebar-card);
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
+  display: flex;
+  flex-direction: column;
+  padding: 18px 18px 16px;
+  box-sizing: border-box;
 }
 
-/* link + icono */
-.side-bar .ant-menu-item a{
-  display:flex; align-items:center; gap:12px;
-  font-weight:700;
-  color:var(--text-900);
-  letter-spacing:.2px;
-  -webkit-text-fill-color: currentColor; /* evita invertir color en Safari */
-}
-.side-bar .ant-menu-item .anticon{
-  font-size:18px;
-  color:var(--blue-600);
-  opacity:.95;
+/* HEADER / LOGO */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-/* hover */
-.side-bar .ant-menu-item:hover{
-  background:linear-gradient(0deg, rgba(37,99,235,.06), rgba(37,99,235,.06)), var(--blue-50);
-  box-shadow:0 6px 18px rgba(37,99,235,.10);
-}
-.side-bar .ant-menu-item:hover a{ color:var(--blue-700); }
-.side-bar .ant-menu-item:hover .anticon{ color:var(--blue-700); }
-
-/* ===== seleccionado (ruta activa) — SIN texto blanco ===== */
-.side-bar .ant-menu-item-selected{
-  /* pill claro con tinte azul, NO oscuro */
-  background: linear-gradient(0deg, rgba(37,99,235,.10), rgba(37,99,235,.10)), #ffffff !important;
-  border: 1px solid rgba(37,99,235,.22) !important;
-  box-shadow: 0 8px 20px rgba(37,99,235,.14) !important;
-  transform: translateY(-1px);
-}
-.side-bar .ant-menu-item-selected a{
-  color: var(--blue-700) !important;
-  -webkit-text-fill-color: var(--blue-700) !important;
-}
-.side-bar .ant-menu-item-selected .anticon{
-  color: var(--blue-700) !important;
-}
-/* hover sobre seleccionado: conserva legibilidad */
-.side-bar .ant-menu-item-selected:hover{
-  background: linear-gradient(0deg, rgba(37,99,235,.12), rgba(37,99,235,.12)), #ffffff !important;
-}
-.side-bar .ant-menu-item-selected:hover a{ color: var(--blue-800) !important; }
-.side-bar .ant-menu-item-selected:hover .anticon{ color: var(--blue-800) !important; }
-
-/* quitar barrita lateral azul por default */
-.side-bar .ant-menu-item::after{ border-inline-end:0 !important; }
-
-/* foco teclado accesible */
-.side-bar .ant-menu-item:focus-visible{
-  outline:2px solid rgba(37,99,235,.35);
-  outline-offset:2px;
+.sidebar-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 16px;
+  background: radial-gradient(circle at 20% 20%, #a855f7, #4f46e5);
+  position: relative;
 }
 
-/* separador vertical sutil entre sidebar y contenido */
-:host{ display:block; width:100%; }
-@media (max-width: 768px){
-  .side-bar{ min-width:220px; padding:12px 8px; }
-  .side-bar .ant-menu-item{ margin:8px 6px; height:44px; }
+.logo-dot {
+  position: absolute;
+  border-radius: 999px;
+  background: #f9fafb;
+}
+.logo-dot.main {
+  width: 14px;
+  height: 14px;
+  left: 10px;
+  top: 11px;
+}
+.logo-dot.secondary {
+  width: 8px;
+  height: 8px;
+  right: 9px;
+  bottom: 8px;
+  opacity: 0.85;
 }
 
-/* color por defecto de enlaces del menú (por si un global los apaga) */
-.side-bar .ant-menu-item a:link,
-.side-bar .ant-menu-item a:visited{
-  color:var(--text-900);
+.sidebar-brand {
+  display: flex;
+  flex-direction: column;
+}
+.brand-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+.brand-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* MENÚ */
+.sidebar-menu {
+  border-right: none;
+  background: transparent;
+  flex: 1;
+  padding: 0;
+  margin: 0;
+}
+
+/* Items sin pill raro, tamaño uniforme */
+.sidebar-menu .ant-menu-item {
+  margin: 2px 0;
+  padding: 0 4px !important;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 10px;
+}
+
+/* Enlace interno */
+.sidebar-menu .ant-menu-item > span,
+.sidebar-menu .ant-menu-item > a {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  gap: 10px;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Íconos ng-zorro minimalistas */
+.sidebar-menu .anticon {
+  font-size: 18px;
+  color: var(--text-main);
+}
+
+/* Texto */
+.item-label {
+  flex: 1;
+}
+
+/* Hover */
+.sidebar-menu .ant-menu-item:hover {
+  background: #f3f4ff;
+}
+
+/* Activo / seleccionado */
+.sidebar-menu .ant-menu-item.is-active,
+.sidebar-menu .ant-menu-item-selected {
+  background: var(--purple-soft);
+}
+
+.sidebar-menu .ant-menu-item.is-active > span,
+.sidebar-menu .ant-menu-item.is-active > a,
+.sidebar-menu .ant-menu-item-selected > span,
+.sidebar-menu .ant-menu-item-selected > a {
+  color: var(--purple-main);
+}
+
+/* AYUDA */
+.sidebar-help {
+  margin-top: 10px;
+}
+
+.help-card {
+  background: #f5f3ff;
+  border-radius: 16px;
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.help-header {
+  display: flex;
+  gap: 8px;
+}
+
+.help-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.help-icon .anticon {
+  font-size: 16px;
+  color: var(--purple-main);
+}
+
+.help-text {
+  flex: 1;
+}
+
+.help-title {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.help-sub {
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Botón de ayuda */
+.help-btn,
+.help-btn.ant-btn {
+  border-radius: 999px !important;
+  border: none !important;
+  background: #ffffff !important;
+  padding: 4px 14px !important;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--purple-main) !important;
+  height: 28px;
+  line-height: 20px;
+  box-shadow: 0 6px 12px rgba(148, 163, 184, 0.35);
+}
+
+.help-btn:hover,
+.help-btn.ant-btn:hover {
+  background: #f9fafb !important;
+}
+
+/* Responsive mínimo */
+@media (max-width: 900px) {
+  .sidebar {
+    width: 230px;
+    max-width: 230px;
+  }
+}
+.item-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-icon svg {
+  stroke: #111; /* NEGRO minimalista */
+}
+
+.sidebar-menu .is-active .item-icon svg {
+  stroke: #6d28d9;
+}
+
+/* ==== FIX ICONOS Y PASTILLAS DEL MENÚ LATERAL ==== */
+
+/* Cada item: fila simple con icono + texto, sin fondo raro */
+.sidebar-menu .ant-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 4px;
+  background: transparent !important;
+  border-radius: 0 !important;   /* sin pastilla redondeada */
+}
+
+/* Quitamos cualquier pseudo-elemento que estuviera dibujando “bordes raros” */
+.sidebar-menu .ant-menu-item::before,
+.sidebar-menu .ant-menu-item::after {
+  content: none !important;
+}
+
+/* Íconos NG-ZORRO: tamaño y color negro/minimal */
+.sidebar-menu .ant-menu-item .anticon {
+  font-size: 18px;
+  color: #111827 !important;
+}
+
+/* Texto del item */
+.sidebar-menu .ant-menu-item .item-label,
+.sidebar-menu .ant-menu-title-content {
+  font-size: 14px;
+  color: #111827;
+}
+
+/* Hover: solo cambiamos color, sin cambiar fondo */
+.sidebar-menu .ant-menu-item:hover .anticon,
+.sidebar-menu .ant-menu-item:hover .item-label {
+  color: #4f46e5 !important;
+}
+
+/* Activo: misma idea, solo color y una barrita a la izquierda opcional */
+.sidebar-menu .ant-menu-item-selected,
+.sidebar-menu .ant-menu-item.is-active {
+  background: transparent !important;
+  border-left: 3px solid #4f46e5;
+}
+
+.sidebar-menu .ant-menu-item-selected .anticon,
+.sidebar-menu .ant-menu-item-selected .item-label,
+.sidebar-menu .ant-menu-item.is-active .anticon,
+.sidebar-menu .ant-menu-item.is-active .item-label {
+  color: #4f46e5 !important;
+}
+
+/* Evitar scroll horizontal en el sidebar */
+.sidebar-wrapper,
+.sidebar {
+  overflow-x: hidden !important;
 }

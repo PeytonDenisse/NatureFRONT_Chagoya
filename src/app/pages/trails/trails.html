@@ -1,48 +1,87 @@
-<div class="trails-header">
-  <div class="header-left">
-    <h2>Listado de Senderos</h2>
-  </div>
-  <div class="header-right">
-    <button nz-button nzType="primary" (click)="analyzeTrailsWithIA()">
-      <span nz-icon nzType="line-chart"></span>
-      Analizar senderos con IA
-    </button>
-  </div>
-</div>
+<!-- ============= EXPLORACIÓN DE SENDEROS ============= -->
+<div class="trails-page">
 
-<div class="trails-card">
-  <div class="table-wrap">
-    <table class="table trails-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Nombre</th>
-          <th>Distancia (km)</th>
-          <th>Dificultad</th>
-          <th>Tiempo Estimado</th>
-          <th>Loop</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let trail of trails; index as i">
-          <td>{{ i + 1 }}</td>
-          <td>{{ trail.name }}</td>
-          <td>{{ trail.distanceKm | number: '1.1-2' }}</td>
-          <td>
-            <span class="difficulty" [ngClass]="trail.difficulty.toLowerCase()">
-              {{ trail.difficulty }}
-            </span>
-          </td>
-          <td>{{ formatTime(trail.estimatedTimeMinutes) }}</td>
-          <td>{{ trail.isLoop ? 'Sí' : 'No' }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <!-- HERO SUPERIOR (mismo layout que Lugares) -->
+  <section class="trails-hero">
+    <div class="hero-left">
+      <p class="hero-badge">Exploración de senderos</p>
+      <h1>Panel de Senderos</h1>
+      <p class="hero-sub">
+        Visualiza todos los senderos registrados y lanza un análisis inteligente con IA
+        para entender dificultad, tiempos y rutas optimizadas.
+      </p>
+      <div class="hero-stats">
+        <div class="stat-pill">
+          <span class="label">Senderos registrados</span>
+          <span class="value">{{ trails.length }}</span>
+        </div>
+        <div class="stat-pill">
+          <span class="label">Modo</span>
+          <span class="value">Administrador</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <button
+        nz-button
+        nzType="primary"
+        class="btn-ia-primary"
+        (click)="analyzeTrailsWithIA()">
+        <span nz-icon nzType="line-chart"></span>
+        Analizar senderos con IA
+      </button>
+
+      <div class="hero-mini-cards">
+        <div class="mini-card">
+          <span class="mini-label">Visión IA</span>
+          <span class="mini-value">Perfil de dificultad</span>
+        </div>
+        <div class="mini-card">
+          <span class="mini-label">Rutas</span>
+          <span class="mini-value">Loops y tiempos óptimos</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARD DE TABLA DE SENDEROS -->
+  <section class="trails-card">
+    <div class="table-wrap">
+      <table class="table trails-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Distancia (km)</th>
+            <th>Dificultad</th>
+            <th>Tiempo Estimado</th>
+            <th>Loop</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let trail of trails; index as i">
+            <td>{{ i + 1 }}</td>
+            <td>{{ trail.name }}</td>
+            <td>{{ trail.distanceKm | number: '1.1-2' }}</td>
+            <td>
+              <span class="difficulty" [ngClass]="trail.difficulty.toLowerCase()">
+                {{ trail.difficulty }}
+              </span>
+            </td>
+            <td>{{ formatTime(trail.estimatedTimeMinutes) }}</td>
+            <td>{{ trail.isLoop ? 'Sí' : 'No' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </div>
 
 <!-- ================= MODAL IA TRAILS ================= -->
+<!-- ================= MODAL IA TRAILS ================= -->
 <nz-modal
+  class="trails-ia-modal"
   [(nzVisible)]="iaModalVisible"
   nzTitle="Análisis Inteligente de Senderos"
   nzWidth="960"
@@ -54,125 +93,151 @@
     <nz-spin [nzSpinning]="iaLoading" nzTip="Analizando senderos...">
 
       <ng-container *ngIf="trailAnalysis as ta">
-        <nz-tabset nzSize="large">
-          <nz-tab nzTitle="Senderos">
+        <div class="trails-ia-wrapper">
+          <nz-tabset nzSize="large">
+            <nz-tab nzTitle="Senderos">
 
-            <!-- CARDS RESUMEN -->
-            <div class="ia-cards-grid">
-              <nz-card class="ia-card">
-                <h4>Total de senderos</h4>
-                <p class="ia-card-kpi">{{ ta.summary.totalTrails }}</p>
-              </nz-card>
+              <!-- CARDS RESUMEN -->
+              <div class="ia-cards-grid">
+                <nz-card class="ia-card kpi-main">
+                  <h4>Total de senderos</h4>
+                  <p class="ia-card-kpi">{{ ta.summary.totalTrails }}</p>
+                  <p class="ia-card-sub">Inventario actual</p>
+                </nz-card>
 
-              <nz-card class="ia-card">
-                <h4>Distancia media</h4>
-                <p class="ia-card-kpi">
-                  {{ ta.summary.averageDistanceKm | number:'1.1-2' }} km
-                </p>
-              </nz-card>
+                <nz-card class="ia-card">
+                  <h4>Distancia media</h4>
+                  <p class="ia-card-kpi">
+                    {{ ta.summary.averageDistanceKm | number:'1.1-2' }} km
+                  </p>
+                  <p class="ia-card-sub">Por sendero</p>
+                </nz-card>
 
-              <nz-card class="ia-card">
-                <h4>Tiempo estimado medio</h4>
-                <p class="ia-card-kpi">
-                  {{ ta.summary.averageEstimatedTimeMinutes | number:'1.0-0' }} min
-                </p>
-              </nz-card>
+                <nz-card class="ia-card">
+                  <h4>Tiempo estimado medio</h4>
+                  <p class="ia-card-kpi">
+                    {{ ta.summary.averageEstimatedTimeMinutes | number:'1.0-0' }} min
+                  </p>
+                  <p class="ia-card-sub">Duración típica</p>
+                </nz-card>
 
-              <nz-card class="ia-card">
-                <h4>Loops</h4>
-                <p class="ia-card-kpi">
-                  {{ ta.summary.loopTrailCount }} loops / {{ ta.summary.nonLoopTrailCount }} no-loop
-                </p>
-              </nz-card>
-            </div>
+                <nz-card class="ia-card">
+                  <h4>Loops</h4>
+                  <p class="ia-card-kpi">
+                    {{ ta.summary.loopTrailCount }} /
+                    {{ ta.summary.nonLoopTrailCount }}
+                  </p>
+                  <p class="ia-card-sub">Loop / no-loop</p>
+                </nz-card>
+              </div>
 
-            <!-- GRÁFICA DIFICULTAD (barras / radar placeholder) -->
-            <div class="ia-charts-grid">
-              <nz-card class="ia-card">
-                <h4>Dificultad vs cantidad (barras)</h4>
-                <div class="chart-bars">
-                  <div
-                    class="chart-bar"
-                    *ngFor="let d of ta.difficultyStats">
-                    <span class="bar-label">{{ d.difficulty }}</span>
-                    <div class="bar-track">
-                      <div class="bar-fill"
-                           [style.width.%]="(d.trailCount / ta.summary.totalTrails) * 100">
+              <!-- GRÁFICA DIFICULTAD -->
+              <div class="ia-charts-grid">
+                <nz-card class="ia-card">
+                  <h4>Dificultad vs cantidad</h4>
+                  <div class="chart-bars">
+                    <div
+                      class="chart-bar"
+                      *ngFor="let d of ta.difficultyStats">
+                      <div class="bar-head">
+                        <span class="bar-label">{{ d.difficulty }}</span>
+                        <span class="bar-value">{{ d.trailCount }} senderos</span>
+                      </div>
+                      <div class="bar-track">
+                        <div
+                          class="bar-fill"
+                          [style.width.%]="(d.trailCount / ta.summary.totalTrails) * 100">
+                        </div>
+                      </div>
+                      <div class="bar-meta">
+                        {{ d.averageDistanceKm | number:'1.1-2' }} km ·
+                        {{ d.averageEstimatedTimeMinutes | number:'1.0-0' }} min
                       </div>
                     </div>
-                    <span class="bar-value">{{ d.trailCount }} senderos</span>
                   </div>
-                </div>
-              </nz-card>
+                </nz-card>
 
-              <nz-card class="ia-card">
-                <h4>Perfil de dificultad (radar conceptual)</h4>
-                <p class="muted">
-                  Aquí podemos integrar después un gráfico radar real (Chart.js),
-                  pero de momento se muestra el resumen textual:
-                </p>
-                <ul>
-                  <li *ngFor="let d of ta.difficultyStats">
-                    {{ d.difficulty }} · {{ d.trailCount }} senderos ·
-                    {{ d.averageDistanceKm | number:'1.1-2' }} km ·
-                    {{ d.averageEstimatedTimeMinutes | number:'1.0-0' }} min
+                <nz-card class="ia-card">
+                  <h4>Perfil de dificultad</h4>
+                  <p class="muted">
+                    Resumen rápido por nivel de dificultad. Ideal para decidir qué
+                    tipos de senderos priorizar en la app.
+                  </p>
+                  <ul class="list-clean">
+                    <li *ngFor="let d of ta.difficultyStats">
+                      <span class="dot"></span>
+                      <span>
+                        <strong>{{ d.difficulty }}</strong> ·
+                        {{ d.trailCount }} senderos ·
+                        {{ d.averageDistanceKm | number:'1.1-2' }} km ·
+                        {{ d.averageEstimatedTimeMinutes | number:'1.0-0' }} min
+                      </span>
+                    </li>
+                  </ul>
+                </nz-card>
+              </div>
+
+              <!-- RECOMENDADOS -->
+              <div class="ia-columns">
+                <nz-card class="ia-card ia-column">
+                  <h4>Para principiantes</h4>
+                  <ol class="ranked-list">
+                    <li *ngFor="let t of ta.recommendedForBeginners">
+                      <span class="name">{{ t.name }}</span>
+                      <span class="meta">
+                        {{ t.distanceKm | number:'1.1-2' }} km ·
+                        {{ t.estimatedTimeMinutes }} min · {{ t.difficulty }}
+                      </span>
+                    </li>
+                  </ol>
+                </nz-card>
+
+                <nz-card class="ia-card ia-column">
+                  <h4>Senderistas expertos</h4>
+                  <ol class="ranked-list">
+                    <li *ngFor="let t of ta.recommendedForExperiencedHikers">
+                      <span class="name">{{ t.name }}</span>
+                      <span class="meta">
+                        {{ t.distanceKm | number:'1.1-2' }} km ·
+                        {{ t.estimatedTimeMinutes }} min · {{ t.difficulty }}
+                      </span>
+                    </li>
+                  </ol>
+                </nz-card>
+
+                <nz-card class="ia-card ia-column">
+                  <h4>Top por distancia</h4>
+                  <ol class="ranked-list">
+                    <li *ngFor="let t of ta.topTrailsByDistance">
+                      <span class="name">{{ t.name }}</span>
+                      <span class="meta">
+                        {{ t.distanceKm | number:'1.1-2' }} km · {{ t.difficulty }}
+                      </span>
+                    </li>
+                  </ol>
+                </nz-card>
+              </div>
+
+              <!-- INSIGHTS (PATTERNS) -->
+              <nz-card class="ia-card ia-patterns">
+                <h4>Insights de IA</h4>
+                <ul class="insights-list">
+                  <li *ngFor="let p of ta.patterns">
+                    <span class="insight-bullet"></span>
+                    <span>{{ p }}</span>
                   </li>
                 </ul>
               </nz-card>
-            </div>
+            </nz-tab>
 
-            <!-- RECOMENDADOS -->
-            <div class="ia-columns">
-              <nz-card class="ia-card ia-column">
-                <h4>Recomendados para principiantes</h4>
-                <ol>
-                  <li *ngFor="let t of ta.recommendedForBeginners">
-                    <strong>{{ t.name }}</strong> ·
-                    {{ t.distanceKm | number:'1.1-2' }} km ·
-                    {{ t.estimatedTimeMinutes }} min ({{ t.difficulty }})
-                  </li>
-                </ol>
-              </nz-card>
-
-              <nz-card class="ia-card ia-column">
-                <h4>Para senderistas experimentados</h4>
-                <ol>
-                  <li *ngFor="let t of ta.recommendedForExperiencedHikers">
-                    <strong>{{ t.name }}</strong> ·
-                    {{ t.distanceKm | number:'1.1-2' }} km ·
-                    {{ t.estimatedTimeMinutes }} min ({{ t.difficulty }})
-                  </li>
-                </ol>
-              </nz-card>
-
-              <nz-card class="ia-card ia-column">
-                <h4>Top por distancia</h4>
-                <ol>
-                  <li *ngFor="let t of ta.topTrailsByDistance">
-                    <strong>{{ t.name }}</strong> ·
-                    {{ t.distanceKm | number:'1.1-2' }} km ({{ t.difficulty }})
-                  </li>
-                </ol>
-              </nz-card>
-            </div>
-
-            <!-- INSIGHTS (PATTERNS) -->
-            <nz-card class="ia-card ia-patterns">
-              <h4>Insights de IA</h4>
-              <ul>
-                <li *ngFor="let p of ta.patterns">
-                  {{ p }}
-                </li>
-              </ul>
-            </nz-card>
-          </nz-tab>
-
-          <nz-tab nzTitle="Lugares">
-            <p class="muted">
-              Para ver la analítica de lugares, usa el botón "Analizar lugares con IA" en la sección de Lugares.
-            </p>
-          </nz-tab>
-        </nz-tabset>
+            <nz-tab nzTitle="Lugares">
+              <p class="muted">
+                Para ver la analítica de lugares, usa el botón
+                "Analizar lugares con IA" en la sección de Lugares.
+              </p>
+            </nz-tab>
+          </nz-tabset>
+        </div>
       </ng-container>
 
       <ng-container *ngIf="!iaLoading && !trailAnalysis">
@@ -182,3 +247,4 @@
     </nz-spin>
   </ng-container>
 </nz-modal>
+

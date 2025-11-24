@@ -1,138 +1,220 @@
-<div *ngIf="place as p; else loading" class="detail-grid">
+<div *ngIf="place as p; else loading" class="place-detail-page">
 
-  <!-- CARD (IZQUIERDA) -->
-  <section class="detail-card">
-    <!-- Hero con imagen y título -->
-    <div class="hero">
-      <img class="hero-img" [src]="p.photos[0]?.url" [alt]="p.name" />
-      <div class="hero-overlay"></div>
-      <h1 class="hero-title">{{ p.name }}</h1>
+  <!-- ===== HEADER ===== -->
+  <header class="pd-header">
+    <div>
+      <p class="pd-breadcrumb">Lugares · Detalle</p>
+      <h1 class="pd-title">{{ p.name }}</h1>
+      <p class="pd-subtitle">
+        {{ p.category }} ·
+        {{ p.accessible ? 'Lugar accesible' : 'Accesibilidad limitada' }}
+      </p>
     </div>
 
-    <!-- Datos con iconos -->
-    <div class="card-body">
-      <div class="kv">
-        <span class="kv-icon" nz-icon nzType="tag"></span>
-        <span class="kv-label">Categoría</span>
-        <span class="kv-value">{{ p.category }}</span>
+    <div class="pd-header-meta">
+      <div class="pd-tag">
+        <span nz-icon nzType="environment"></span>
+        <span>Mapa integrado</span>
+      </div>
+      <div class="pd-tag pd-tag-soft">
+        <span nz-icon nzType="cluster"></span>
+        <span>{{ p.trails?.length || 0 }} senderos</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== FILA DE KPIs ===== -->
+  <section class="pd-kpi-row">
+    <article class="pd-kpi-card main">
+      <p class="kpi-label">Categoría</p>
+      <p class="kpi-value">{{ p.category }}</p>
+      <p class="kpi-sub">Tipo principal de este lugar</p>
+    </article>
+
+    <article class="pd-kpi-card">
+      <p class="kpi-label">Senderos registrados</p>
+      <p class="kpi-value">{{ p.trails?.length || 0 }}</p>
+      <p class="kpi-sub">Conectados a este lugar</p>
+    </article>
+
+    <article class="pd-kpi-card">
+      <p class="kpi-label">Fotos en galería</p>
+      <p class="kpi-value">{{ p.photos?.length || 0 }}</p>
+      <p class="kpi-sub">Incluyendo portada</p>
+    </article>
+
+    <article class="pd-kpi-card">
+      <p class="kpi-label">Amenidades</p>
+      <p class="kpi-value">{{ p.amenities?.length || 0 }}</p>
+      <p class="kpi-sub">Servicios disponibles</p>
+    </article>
+  </section>
+
+  <!-- ===== GRID PRINCIPAL (INFO + MAPA) ===== -->
+  <section class="pd-main-grid">
+
+    <!-- INFO DEL LUGAR -->
+    <article class="pd-panel pd-info">
+      <div class="hero">
+        <img class="hero-img" [src]="p.photos[0]?.url" [alt]="p.name" />
+        <!-- overlay neutro, sin morado -->
+        <div class="hero-overlay"></div>
+        <h2 class="hero-title">{{ p.name }}</h2>
       </div>
 
-      <div class="kv">
-        <span class="kv-icon" nz-icon nzType="file-text"></span>
-        <span class="kv-label">Descripción</span>
-        <span class="kv-value">{{ p.description || '—' }}</span>
-      </div>
+      <div class="card-body">
+        <div class="kv">
+          <span class="kv-icon" nz-icon nzType="file-text"></span>
+          <span class="kv-label">Descripción</span>
+          <span class="kv-value">{{ p.description || '—' }}</span>
+        </div>
 
-      <div class="kv">
-        <span class="kv-icon" nz-icon nzType="environment"></span>
-        <span class="kv-label">Coordenadas</span>
-        <span class="kv-value">{{ p.latitude }}, {{ p.longitude }}</span>
-      </div>
-
-      <div class="kv">
-        <span class="kv-icon" nz-icon nzType="arrow-up"></span>
-        <span class="kv-label">Altitud</span>
-        <span class="kv-value">{{ p.elevationMeters ?? '—' }} m</span>
-      </div>
-
-      <div class="kv">
-        <span class="kv-icon" nz-icon nzType="check-circle"></span>
-        <span class="kv-label">Accesible</span>
-        <span class="kv-value">{{ p.accessible ? 'Sí' : 'No' }}</span>
-      </div>
-
-      <div class="kv">
-        <span class="kv-icon" nz-icon nzType="dollar"></span>
-        <span class="kv-label">Entrada</span>
-        <span class="kv-value">{{ p.entryFee != null ? (p.entryFee | currency:'MXN') : '—' }}</span>
-      </div>
-
-      <div class="kv">
-        <span class="kv-icon" nz-icon nzType="clock-circle"></span>
-        <span class="kv-label">Horario</span>
-        <span class="kv-value">{{ p.openingHours || '—' }}</span>
-      </div>
-
-      <!-- Amenidades -->
-      <section *ngIf="place" class="section-block">
-        <h3 class="section-title">Amenidades</h3>
-
-        <div *ngIf="place.amenities?.length; else noAmenities" class="chips">
-          <span class="chip" *ngFor="let a of place!.amenities">
-            {{ a?.name || a }}
+        <div class="kv">
+          <span class="kv-icon" nz-icon nzType="environment"></span>
+          <span class="kv-label">Coordenadas</span>
+          <span class="kv-value">
+            {{ p.latitude }}, {{ p.longitude }}
           </span>
         </div>
 
-        <ng-template #noAmenities>
-          <span class="chip chip--muted">Sin amenidades registradas</span>
-        </ng-template>
-      </section>
-    </div>
+        <div class="kv">
+          <span class="kv-icon" nz-icon nzType="arrow-up"></span>
+          <span class="kv-label">Altitud</span>
+          <span class="kv-value">
+            {{ p.elevationMeters ?? '—' }} m
+          </span>
+        </div>
+
+        <div class="kv">
+          <span class="kv-icon" nz-icon nzType="check-circle"></span>
+          <span class="kv-label">Accesible</span>
+          <span class="kv-value">{{ p.accessible ? 'Sí' : 'No' }}</span>
+        </div>
+
+        <div class="kv">
+          <span class="kv-icon" nz-icon nzType="dollar"></span>
+          <span class="kv-label">Entrada</span>
+          <span class="kv-value">
+            {{
+              p.entryFee != null
+                ? (p.entryFee | currency : 'MXN')
+                : '—'
+            }}
+          </span>
+        </div>
+
+        <div class="kv">
+          <span class="kv-icon" nz-icon nzType="clock-circle"></span>
+          <span class="kv-label">Horario</span>
+          <span class="kv-value">{{ p.openingHours || '—' }}</span>
+        </div>
+
+        <!-- Amenidades -->
+        <section class="section-block">
+          <h3 class="section-title">Amenidades</h3>
+
+          <div *ngIf="p.amenities?.length; else noAmenities" class="chips">
+            <span class="chip" *ngFor="let a of p.amenities">
+              {{ a?.name || a }}
+            </span>
+          </div>
+
+          <ng-template #noAmenities>
+            <span class="chip chip--muted">Sin amenidades registradas</span>
+          </ng-template>
+        </section>
+      </div>
+    </article>
+
+    <!-- MAPA -->
+    <aside class="pd-panel pd-map">
+      <header class="map-header">
+        <span class="map-title">Mapa general</span>
+        <span class="map-sub">Vista rápida de la ubicación</span>
+      </header>
+      <div id="mini-map" class="mini-map"></div>
+    </aside>
   </section>
 
+  <!-- ===== GRID INFERIOR (SENDEROS + GALERÍA) ===== -->
+  <section class="pd-bottom-grid">
 
-  <aside class="map-panel">
-    <div id="mini-map" class="mini-map"></div>
-  </aside>
+    <!-- SENDEROS -->
+    <article class="pd-panel">
+      <header class="panel-header">
+        <h3>Senderos del lugar</h3>
+        <p>Listado resumido de los senderos conectados.</p>
+      </header>
+
+      <ng-container *ngIf="p.trails?.length; else noTrails">
+        <div class="table-wrapper">
+          <table class="table place-trails-table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Distancia</th>
+                <th>Dificultad</th>
+                <th>Tiempo estimado</th>
+                <th>Tipo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let t of p.trails">
+                <td>{{ t.name }}</td>
+                <td>{{ t.distanceKm | number : '1.1-1' }} km</td>
+                <td>
+                  <span class="difficulty" [ngClass]="t.difficulty.toLowerCase()">
+                    {{ t.difficulty }}
+                  </span>
+                </td>
+                <td>
+                  {{
+                    t.estimatedTimeMinutes != null
+                      ? (t.estimatedTimeMinutes + ' min')
+                      : '—'
+                  }}
+                </td>
+                <td>{{ t.isLoop ? 'Loop' : 'Ida y vuelta' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+
+      <ng-template #noTrails>
+        <div class="muted">Este lugar aún no tiene senderos registrados.</div>
+      </ng-template>
+    </article>
+
+    <!-- GALERÍA -->
+    <article class="pd-panel">
+      <header class="panel-header">
+        <h3>Galería de fotos</h3>
+        <p>Imágenes adicionales asociadas al lugar.</p>
+      </header>
+
+      <ng-container *ngIf="p.photos && p.photos.length > 1; else noGallery">
+        <div class="gallery-grid">
+          <!-- omitimos la primera (portada) -->
+          <figure class="g-item" *ngFor="let ph of p.photos; let i = index" [hidden]="i === 0">
+            <img
+              [src]="ph?.url"
+              [alt]="ph?.description || p.name"
+              loading="lazy"
+            />
+            <figcaption *ngIf="ph?.description">
+              {{ ph.description }}
+            </figcaption>
+          </figure>
+        </div>
+      </ng-container>
+
+      <ng-template #noGallery>
+        <div class="muted">Aún no hay más fotos para este lugar.</div>
+      </ng-template>
+    </article>
+  </section>
 </div>
-
-
-<section *ngIf="place as p" class="section-block">
-  <h3 class="section-title">Senderos</h3>
-
-  <ng-container *ngIf="p.trails?.length; else noTrails">
-    <div class="table-wrapper">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Distancia</th>
-            <th>Dificultad</th>
-            <th>Tiempo estimado</th>
-            <th>Tipo</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let t of p.trails">
-            <td>{{ t.name }}</td>
-            <td>{{ t.distanceKm | number:'1.1-1' }} km</td>
-            <td>{{ t.difficulty }}</td>
-            <td>{{ t.estimatedTimeMinutes != null ? (t.estimatedTimeMinutes + ' min') : '—' }}</td>
-            <td>{{ t.isLoop ? 'Loop' : 'Ida y vuelta' }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </ng-container>
-
-  <ng-template #noTrails>
-    <div class="muted">Este lugar aún no tiene senderos registrados.</div>
-  </ng-template>
-</section>
-
-<section *ngIf="place as p" class="section-block">
-  <h3 class="section-title">Galería</h3>
-
-  <ng-container *ngIf="p.photos && p.photos.length > 1; else noGallery">
-    <div class="gallery-grid">
-      <!-- Evita slice; saltamos la primera con el índice -->
-      <figure class="g-item" *ngFor="let ph of p.photos; let i = index" [hidden]="i === 0">
-        <img
-          [src]="ph?.url"
-          [alt]="ph?.description || p.name"
-          loading="lazy"
-        />
-        <figcaption *ngIf="ph?.description">
-          {{ ph.description }}
-        </figcaption>
-      </figure>
-    </div>
-  </ng-container>
-
-  <ng-template #noGallery>
-    <div class="muted">Aún no hay más fotos para este lugar.</div>
-  </ng-template>
-</section>
 
 <ng-template #loading>
   <p>Cargando detalle del lugar...</p>

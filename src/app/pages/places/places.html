@@ -1,223 +1,413 @@
-<div class="places-header">
-  <div class="header-left">
-    <h2>Listado de Lugares</h2>
-  </div>
-  <div class="header-right">
-    <button nz-button nzType="primary" (click)="analyzePlacesWithIA()">
-      <span nz-icon nzType="line-chart"></span>
-      Analizar lugares con IA
-    </button>
-  </div>
+<!-- ============= EXPLORACIÓN DE LUGARES ============= -->
+<div class="places-page">
+
+  <!-- HERO SUPERIOR -->
+  <section class="places-hero">
+    <div class="hero-left">
+      <p class="hero-badge">Exploración de lugares</p>
+      <h1>Panel de Lugares</h1>
+      <p class="hero-sub">
+        Visualiza todos los puntos naturales registrados y lanza un análisis
+        inteligente con IA en un solo clic.
+      </p>
+      <div class="hero-stats">
+        <div class="stat-pill">
+          <span class="label">Lugares registrados</span>
+          <span class="value">{{ places.length }}</span>
+        </div>
+        <div class="stat-pill">
+          <span class="label">Modo</span>
+          <span class="value">Administrador</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <button
+        nz-button
+        nzType="primary"
+        class="btn-ia-primary"
+        (click)="analyzePlacesWithIA()">
+        <span nz-icon nzType="line-chart"></span>
+        Analizar lugares con IA
+      </button>
+
+      <div class="hero-mini-cards">
+        <div class="mini-card">
+          <span class="mini-label">Visión IA</span>
+          <span class="mini-value">Resumen global</span>
+        </div>
+        <div class="mini-card">
+          <span class="mini-label">Mapa</span>
+          <span class="mini-value">Revisa en detalle cada lugar</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TARJETA DE TABLA -->
+  <section class="places-card">
+    <header class="card-header">
+      <div>
+        <h2>Listado de lugares</h2>
+        <p>Consulta rápidamente todos los lugares registrados en NatureApp.</p>
+      </div>
+      <span class="pill-soft">
+        <span class="dot"></span>
+        Datos sincronizados
+      </span>
+    </header>
+
+    <div class="table-wrap">
+      <table class="table places-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Latitud</th>
+            <th>Longitud</th>
+            <th class="th-actions">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let place of places; index as i">
+            <td>{{ i + 1 }}</td>
+            <td>
+              <div class="place-name-cell">
+                <span class="place-name">{{ place.name }}</span>
+                <span class="place-sub">ID: {{ place.id }}</span>
+              </div>
+            </td>
+            <td>
+              <span class="chip-category">
+                {{ place.category }}
+              </span>
+            </td>
+            <td>{{ place.latitude | number:'1.4-6' }}</td>
+            <td>{{ place.longitude | number:'1.4-6' }}</td>
+            <td class="td-actions">
+              <a class="btn-detail" [routerLink]="['/admin','places', place.id]">
+                Ver detalle
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </div>
 
-<div class="places-card">
-  <div class="table-wrap">
-    <table class="table places-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Nombre</th>
-          <th>Categoría</th>
-          <th>Latitud</th>
-          <th>Longitud</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let place of places; index as i">
-          <td>{{ i + 1 }}</td>
-          <td>{{ place.name }}</td>
-          <td>{{ place.category }}</td>
-          <td>{{ place.latitude | number:'1.4-6' }}</td>
-          <td>{{ place.longitude | number:'1.4-6' }}</td>
-          <td>
-            <a class="btn-detail" [routerLink]="['/admin','places', place.id]">Ver detalle</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ================= MODAL IA PLACES ================= -->
+<!-- ============= MODAL IA ============= -->
 <nz-modal
+  class="ia-dashboard-modal"
   [(nzVisible)]="iaModalVisible"
-  nzTitle="Análisis Inteligente de Lugares"
-  nzWidth="960"
+  [nzWidth]="1180"
   nzCentered="true"
-  (nzOnCancel)="closeIaModal()"
-  [nzFooter]="null">
+  [nzFooter]="null"
+  nzTitle="Análisis Inteligente de Lugares"
+  (nzOnCancel)="closeIaModal()">
 
   <ng-container *nzModalContent>
-    <nz-spin [nzSpinning]="iaLoading" nzTip="Analizando lugares...">
+    <div class="ia-wrapper">
+      <nz-spin [nzSpinning]="iaLoading" nzTip="Procesando análisis...">
 
-      <ng-container *ngIf="placeAnalysis as pa">
-        <!-- TABS Places / Trails (aquí sólo hay datos de Places) -->
-        <nz-tabset nzSize="large">
-          <nz-tab nzTitle="Lugares">
-            <!-- CARDS RESUMEN -->
-            <div class="ia-cards-grid">
-              <nz-card class="ia-card">
-                <h4>Total de lugares</h4>
-                <p class="ia-card-kpi">{{ pa.summary.totalPlaces }}</p>
-              </nz-card>
+        <!-- ========== CONTENIDO CON DATOS ========== -->
+        <ng-container *ngIf="placeAnalysis as pa; else iaEmpty">
 
-              <nz-card class="ia-card">
-                <h4>Total de reseñas</h4>
-                <p class="ia-card-kpi">{{ pa.summary.totalReviews }}</p>
-              </nz-card>
-
-              <nz-card class="ia-card">
-                <h4>Rating promedio global</h4>
-                <p class="ia-card-kpi">
-                  {{ pa.summary.averageRatingGlobal | number:'1.1-2' }}
-                </p>
-              </nz-card>
-
-              <nz-card class="ia-card">
-                <h4>Senderos por lugar (prom.)</h4>
-                <p class="ia-card-kpi">
-                  {{ pa.summary.averageTrailsPerPlace | number:'1.1-2' }}
-                </p>
-              </nz-card>
-
-              <nz-card class="ia-card">
-                <h4>Fotos por lugar (prom.)</h4>
-                <p class="ia-card-kpi">
-                  {{ pa.summary.averagePhotosPerPlace | number:'1.1-2' }}
-                </p>
-              </nz-card>
+          <!-- ===== BARRA SUPERIOR ===== -->
+          <section class="ia-header-belt">
+            <div class="ia-header-main">
+              <p class="ia-breadcrumb">Dashboard IA · Lugares naturales</p>
+              <h2>Visión general de NatureApp</h2>
+              <p class="ia-subtitle">
+                Análisis automático de rating, senderos, fotos y accesibilidad.
+              </p>
+              <p class="ia-micro">
+                Basado en {{ pa.summary.totalPlaces }} lugares
+                y {{ pa.summary.totalReviews }} reseñas.
+              </p>
             </div>
 
-            <!-- SECCIÓN GRÁFICAS (placeholders listos para meter charts reales) -->
-            <div class="ia-charts-grid">
-              <!-- Donut: accesibles vs no accesibles -->
-              <nz-card class="ia-card">
-                <h4>Accesibilidad (donut)</h4>
-                <div class="chart-donut">
-                  <!-- Aquí después podemos integrar Chart.js -->
-                  <div class="chart-donut-center">
-                    {{ pa.accessibilityStats.accessiblePlaces }}/{{ pa.summary.totalPlaces }}
-                    <span>Lugares accesibles</span>
+            <div class="ia-header-side">
+              <div class="header-pill">
+                <span class="pulse-dot"></span>
+                Insights en tiempo real
+              </div>
+              <div class="header-metrics">
+                <div class="header-metric">
+                  <span class="label">Rating global</span>
+                  <span class="value">
+                    {{ pa.summary.averageRatingGlobal | number:'1.1-2' }}★
+                  </span>
+                  <span class="mini">Percepción promedio</span>
+                </div>
+                <div class="header-metric">
+                  <span class="label">Senderos</span>
+                  <span class="value">
+                    {{ pa.summary.averageTrailsPerPlace | number:'1.1-2' }}
+                  </span>
+                  <span class="mini">Por lugar</span>
+                </div>
+                <div class="header-metric">
+                  <span class="label">Fotos</span>
+                  <span class="value">
+                    {{ pa.summary.averagePhotosPerPlace | number:'1.1-2' }}
+                  </span>
+                  <span class="mini">Por lugar</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ===== CINTA DE KPIs ===== -->
+          <section class="kpi-grid">
+            <article class="kpi-card kpi-main">
+              <div class="kpi-main-title">Inventario total</div>
+              <div class="kpi-main-value">{{ pa.summary.totalPlaces }}</div>
+              <div class="kpi-main-desc">Lugares activos en NatureApp</div>
+            </article>
+
+            <article class="kpi-card">
+              <div class="kpi-label">Rating global</div>
+              <div class="kpi-value">
+                {{ pa.summary.averageRatingGlobal | number:'1.1-2' }}★
+              </div>
+              <div class="kpi-sub">Satisfacción general</div>
+            </article>
+
+            <article class="kpi-card">
+              <div class="kpi-label">Senderos promedio</div>
+              <div class="kpi-value">
+                {{ pa.summary.averageTrailsPerPlace | number:'1.1-2' }}
+              </div>
+              <div class="kpi-sub">Conectividad por lugar</div>
+            </article>
+
+            <article class="kpi-card">
+              <div class="kpi-label">Fotos promedio</div>
+              <div class="kpi-value">
+                {{ pa.summary.averagePhotosPerPlace | number:'1.1-2' }}
+              </div>
+              <div class="kpi-sub">Nivel visual del contenido</div>
+            </article>
+          </section>
+
+          <!-- ===== GRID PRINCIPAL (3 COLUMNAS) ===== -->
+          <section class="ia-main-grid">
+
+            <!-- DONUT ACCESIBILIDAD -->
+            <article class="ia-panel donut-panel">
+              <header class="panel-header">
+                <span class="panel-icon">📊</span>
+                <div>
+                  <h3>Accesibilidad general</h3>
+                  <p>Proporción de lugares accesibles vs no accesibles.</p>
+                </div>
+              </header>
+
+              <div class="donut-wrap">
+                <div
+                  class="donut"
+                  [style.--percent]="(pa.accessibilityStats.accessiblePlaces / pa.summary.totalPlaces) * 100">
+                  <div class="donut-inner">
+                    <span class="donut-value">
+                      {{
+                        (pa.accessibilityStats.accessiblePlaces / pa.summary.totalPlaces) * 100
+                          | number:'1.0-0'
+                      }}%
+                    </span>
+                    <span class="donut-label">Accesibles</span>
                   </div>
                 </div>
-                <div class="legend">
-                  <span class="legend-item legend-accessible">
-                    ● Accesibles {{ pa.accessibilityStats.accessiblePlaces }}
-                  </span>
-                  <span class="legend-item legend-non-accessible">
-                    ● No accesibles {{ pa.accessibilityStats.nonAccessiblePlaces }}
-                  </span>
-                </div>
-              </nz-card>
 
-              <!-- Barras: rating por categoría -->
-              <nz-card class="ia-card">
-                <h4>Rating medio por categoría (barras)</h4>
-                <div class="chart-bars">
-                  <div
-                    class="chart-bar"
-                    *ngFor="let c of pa.categoryStats">
+                <div class="donut-legend">
+                  <div class="legend-row">
+                    <span class="legend-dot legend-accessible"></span>
+                    <span class="legend-label">Accesibles</span>
+                    <span class="legend-value">
+                      {{ pa.accessibilityStats.accessiblePlaces }}
+                    </span>
+                  </div>
+                  <div class="legend-row">
+                    <span class="legend-dot legend-non"></span>
+                    <span class="legend-label">No accesibles</span>
+                    <span class="legend-value">
+                      {{ pa.accessibilityStats.nonAccessiblePlaces }}
+                    </span>
+                  </div>
+                  <p class="legend-note">
+                    Nivel de accesibilidad ideal para familias y público general.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <!-- BARRAS POR CATEGORÍA -->
+            <article class="ia-panel">
+              <header class="panel-header">
+                <span class="panel-icon">📈</span>
+                <div>
+                  <h3>Rating medio por categoría</h3>
+                  <p>Comparativo visual de las categorías principales.</p>
+                </div>
+              </header>
+
+              <div class="bars-list">
+                <div class="bar-item" *ngFor="let c of pa.categoryStats">
+                  <div class="bar-head">
                     <span class="bar-label">{{ c.category }}</span>
-                    <div class="bar-track">
-                      <div class="bar-fill"
-                           [style.width.%]="(c.averageRating / 5) * 100">
-                      </div>
+                    <span class="bar-rating">
+                      {{ c.averageRating | number:'1.1-2' }}★
+                    </span>
+                  </div>
+                  <div class="bar-track">
+                    <div
+                      class="bar-fill"
+                      [style.width.%]="(c.averageRating / 5) * 100">
                     </div>
-                    <span class="bar-value">
-                      {{ c.averageRating | number:'1.1-2' }}
+                  </div>
+                  <div class="bar-meta">
+                    {{ c.placeCount }} lugares ·
+                    {{ c.averageReviewsPerPlace | number:'1.0-0' }} reseñas/prom.
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- RANKINGS -->
+            <article class="ia-panel rankings-panel">
+              <header class="panel-header">
+                <span class="panel-icon">🏅</span>
+                <div>
+                  <h3>Rankings destacados</h3>
+                  <p>Lugares que más destacan según la IA.</p>
+                </div>
+              </header>
+
+              <div class="ranking-columns">
+                <div class="ranking-col">
+                  <h4>Top calificados</h4>
+                  <div class="rank-card" *ngFor="let r of pa.rankings.topRatedOverall">
+                    <div class="rank-main">
+                      <span class="dot-rank"></span>
+                      <span class="rank-name">{{ r.name }}</span>
+                    </div>
+                    <div class="rank-meta">
+                      {{ r.averageRating | number:'1.1-2' }}★ ·
+                      {{ r.reviewCount }} reseñas
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ranking-col">
+                  <h4>Mejores para hiking</h4>
+                  <div class="rank-card" *ngFor="let r of pa.rankings.bestForHiking">
+                    <div class="rank-main">
+                      <span class="dot-rank dot-hiking"></span>
+                      <span class="rank-name">{{ r.name }}</span>
+                    </div>
+                    <div class="rank-meta">
+                      {{ r.trailCount }} senderos ·
+                      {{ r.averageRating | number:'1.1-2' }}★
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="popular-strip">
+                <h4>Más populares</h4>
+                <div class="popular-chips">
+                  <div class="pop-chip" *ngFor="let m of pa.rankings.mostPopular">
+                    <div class="pop-name">{{ m.name }}</div>
+                    <div class="pop-meta">
+                      {{ m.reviewCount }} reseñas ·
+                      {{ m.averageRating | number:'1.1-2' }}★
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+          </section>
+
+          <!-- ===== GRID INFERIOR ===== -->
+          <section class="ia-bottom-grid">
+
+            <!-- LUGARES DESTACADOS -->
+            <article class="ia-panel featured-panel">
+              <header class="panel-header">
+                <span class="panel-icon">⭐</span>
+                <div>
+                  <h3>Lugares destacados</h3>
+                  <p>Selección rápida de gems, gratis y accesibles.</p>
+                </div>
+              </header>
+
+              <div class="featured-grid">
+                <div class="featured-col">
+                  <h4>Hidden gems</h4>
+                  <div class="feat-card" *ngFor="let g of pa.featured.hiddenGems">
+                    <span class="feat-name">{{ g.name }}</span>
+                    <span class="feat-meta">
+                      {{ g.averageRating | number:'1.1-2' }}★ ·
+                      {{ g.reviewCount }} reseñas
                     </span>
                   </div>
                 </div>
-              </nz-card>
-            </div>
 
-            <!-- RANKINGS -->
-            <div class="ia-columns">
-              <nz-card class="ia-card ia-column">
-                <h4>Top calificados (overall)</h4>
-                <ol>
-                  <li *ngFor="let item of pa.rankings.topRatedOverall">
-                    <strong>{{ item.name }}</strong>
-                    <span> · {{ item.averageRating | number:'1.1-2' }}★ ({{ item.reviewCount }} reseñas)</span>
-                  </li>
-                </ol>
-              </nz-card>
+                <div class="featured-col">
+                  <h4>Gratis</h4>
+                  <div class="feat-card" *ngFor="let f of pa.featured.topFreePlaces">
+                    <span class="feat-name">{{ f.name }}</span>
+                    <span class="feat-meta">
+                      {{ f.averageRating | number:'1.1-2' }}★
+                    </span>
+                  </div>
+                </div>
 
-              <nz-card class="ia-card ia-column">
-                <h4>Mejores para hiking</h4>
-                <ol>
-                  <li *ngFor="let item of pa.rankings.bestForHiking">
-                    <strong>{{ item.name }}</strong>
-                    <span> · {{ item.trailCount }} senderos · {{ item.averageRating | number:'1.1-2' }}★</span>
-                  </li>
-                </ol>
-              </nz-card>
+                <div class="featured-col">
+                  <h4>Accesibles</h4>
+                  <div class="feat-card" *ngFor="let a of pa.featured.accessibleHighlights">
+                    <span class="feat-name">{{ a.name }}</span>
+                    <span class="feat-meta">
+                      {{ a.averageRating | number:'1.1-2' }}★
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </article>
 
-              <nz-card class="ia-card ia-column">
-                <h4>Más populares</h4>
-                <ol>
-                  <li *ngFor="let item of pa.rankings.mostPopular">
-                    <strong>{{ item.name }}</strong>
-                    <span> · {{ item.reviewCount }} reseñas · {{ item.averageRating | number:'1.1-2' }}★</span>
-                  </li>
-                </ol>
-              </nz-card>
-            </div>
+            <!-- INSIGHTS -->
+            <article class="ia-panel insights-panel">
+              <header class="panel-header">
+                <span class="panel-icon">⚡</span>
+                <div>
+                  <h3>Insights de IA</h3>
+                  <p>Hallazgos listos para tomar decisiones.</p>
+                </div>
+              </header>
 
-            <!-- FEATURED / HIDDEN GEMS -->
-            <div class="ia-columns">
-              <nz-card class="ia-card ia-column">
-                <h4>Hidden gems</h4>
-                <ul>
-                  <li *ngFor="let gem of pa.featured.hiddenGems">
-                    {{ gem.name }} · {{ gem.averageRating | number:'1.1-2' }}★ ({{ gem.reviewCount }} reseñas)
-                  </li>
-                </ul>
-              </nz-card>
-
-              <nz-card class="ia-card ia-column">
-                <h4>Mejores lugares gratis</h4>
-                <ul>
-                  <li *ngFor="let f of pa.featured.topFreePlaces">
-                    {{ f.name }} · {{ f.averageRating | number:'1.1-2' }}★
-                  </li>
-                </ul>
-              </nz-card>
-
-              <nz-card class="ia-card ia-column">
-                <h4>Destacados accesibles</h4>
-                <ul>
-                  <li *ngFor="let a of pa.featured.accessibleHighlights">
-                    {{ a.name }} · {{ a.averageRating | number:'1.1-2' }}★
-                  </li>
-                </ul>
-              </nz-card>
-            </div>
-
-            <!-- INSIGHTS (PATTERNS) -->
-            <nz-card class="ia-card ia-patterns">
-              <h4>Insights de IA</h4>
-              <ul>
+              <ul class="insights-list">
                 <li *ngFor="let p of pa.patterns">
-                  {{ p }}
+                  <span class="insight-bullet"></span>
+                  <span>{{ p }}</span>
                 </li>
               </ul>
-            </nz-card>
-          </nz-tab>
+            </article>
 
-          <nz-tab nzTitle="Senderos">
-            <p class="muted">
-              Para ver la analítica de senderos, usa el botón "Analizar senderos con IA" en la sección de Senderos.
-            </p>
-          </nz-tab>
-        </nz-tabset>
-      </ng-container>
+          </section>
+        </ng-container>
 
-      <ng-container *ngIf="!iaLoading && !placeAnalysis">
-        <p>No se pudo obtener el análisis. Intenta de nuevo.</p>
-      </ng-container>
+        <!-- ========== SIN DATOS / ERROR ========== -->
+        <ng-template #iaEmpty>
+          <div class="empty-ia">
+            <h3>No se pudo obtener el análisis</h3>
+            <p>Intenta lanzar nuevamente el análisis o verifica la configuración de IA.</p>
+          </div>
+        </ng-template>
 
-    </nz-spin>
+      </nz-spin>
+    </div>
   </ng-container>
 </nz-modal>

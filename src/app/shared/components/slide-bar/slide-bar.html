@@ -1,22 +1,72 @@
-<ul nz-menu nzMode="inline" class="side-bar">
-  <li nz-menu-item>
-    <a [routerLink]="['/admin','home']">
-      <span nz-icon nzType="home"></span>
-      Inicio
-    </a>
-  </li>
+<!-- admin-sidebar.component.html -->
 
-  <li nz-menu-item>
-    <a [routerLink]="['/admin','places']">
-      <span nz-icon nzType="environment"></span>
-      Lugares
-    </a>
-  </li>
+<div class="sidebar-wrapper">
+  <div class="sidebar">
 
-  <li nz-menu-item>
-    <a [routerLink]="['/admin','trails']">
-      <span nz-icon nzType="branches"></span>
-      Senderos
-    </a>
-  </li>
-</ul>
+    <!-- HEADER -->
+    <header class="sidebar-header">
+      <div class="sidebar-logo">
+        <span class="logo-dot main"></span>
+        <span class="logo-dot secondary"></span>
+      </div>
+      <div class="sidebar-brand">
+        <span class="brand-name">NatureApp</span>
+        <span class="brand-sub">Panel admin</span>
+      </div>
+    </header>
+
+    <!-- MENÚ -->
+    <ul
+      nz-menu
+      nzMode="inline"
+      [nzInlineIndent]="16"
+      class="sidebar-menu">
+
+      <li
+        nz-menu-item
+        routerLink="/admin/home"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <span nz-icon nzType="home" nzTheme="outline"></span>
+        <span class="item-label">Inicio</span>
+      </li>
+
+      <li
+        nz-menu-item
+        routerLink="/admin/places"
+        routerLinkActive="is-active">
+        <span nz-icon nzType="environment" nzTheme="outline"></span>
+        <span class="item-label">Lugares</span>
+      </li>
+
+      <li
+        nz-menu-item
+        routerLink="/admin/trails"
+        routerLinkActive="is-active">
+        <span nz-icon nzType="branches" nzTheme="outline"></span>
+        <span class="item-label">Senderos</span>
+      </li>
+    </ul>
+
+    <!-- AYUDA -->
+    <section class="sidebar-help">
+      <div class="help-card">
+        <div class="help-header">
+          <div class="help-icon">
+            <span nz-icon nzType="question-circle" nzTheme="outline"></span>
+          </div>
+          <div class="help-text">
+            <p class="help-title">¿Necesitas ayuda?</p>
+            <p class="help-sub">
+              Podemos revisar la configuración de tus lugares o senderos.
+            </p>
+          </div>
+        </div>
+        <button nz-button class="help-btn">
+          Enviar mensaje
+        </button>
+      </div>
+    </section>
+
+  </div>
+</div>

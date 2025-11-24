@@ -15,11 +15,12 @@ export class AiAnalyzerService {
   private base = environment.API_URL;
 
   analyzePlaces(): Observable<PlaceAnalysis> {
-    return this.http.get<PlaceAnalysis>(`${this.base}/Places/ia-analyzer`);
+    return this.http.get<PlaceAnalysis>(`${this.base}/Places/ai-analyzi`);
   }
 
   analyzeTrails(): Observable<TrailAnalysis> {
-    return this.http.get<TrailAnalysis>(`${this.base}/Trails/ia-analyzer`);
+    return this.http.get<TrailAnalysis>(`${this.base}/Trails/ai-analyze`);
   }
 }
+
 

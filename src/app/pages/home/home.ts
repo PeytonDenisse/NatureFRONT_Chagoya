@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private map!: Map;
   private subs = new Subscription();
   private markers: Marker[] = [];
-  style = 'mapbox://styles/mapbox/streets-v11';
+  style =  'mapbox://styles/mapbox/navigation-day-v1';
 
   constructor(
     private placeService: PlaceService,
@@ -78,10 +78,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       const popup = new Popup({ offset: 24 }).setHTML(popupHtml);
 
-      const marker = new Marker()
+      
+
+      const marker = new Marker({
+        color: '#8b5cf6' 
+      })
         .setLngLat([p.longitude, p.latitude])
         .setPopup(popup)
         .addTo(this.map);
+
 
       this.markers.push(marker);
       bounds.extend([p.longitude, p.latitude]);

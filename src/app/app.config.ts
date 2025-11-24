@@ -7,7 +7,10 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 
 
 import { EnvironmentOutline, TagOutline, FileTextOutline, ArrowUpOutline,
-  CheckCircleOutline, DollarOutline, ClockCircleOutline, AppstoreOutline } from '@ant-design/icons-angular/icons';
+  CheckCircleOutline, DollarOutline, ClockCircleOutline, AppstoreOutline,
+  HomeOutline,
+  BranchesOutline,
+  QuestionCircleOutline } from '@ant-design/icons-angular/icons';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,7 +19,11 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideNzIcons([
     EnvironmentOutline, TagOutline, FileTextOutline, ArrowUpOutline,
-    CheckCircleOutline, DollarOutline, ClockCircleOutline, AppstoreOutline
+    CheckCircleOutline, DollarOutline, ClockCircleOutline, AppstoreOutline,
+    HomeOutline,
+    EnvironmentOutline,
+    BranchesOutline,
+    QuestionCircleOutline
   ])
   ]
 };

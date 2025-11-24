@@ -93,16 +93,19 @@ export class PlaceDetail implements OnInit, OnDestroy {
 
     this.miniMap = new mapboxgl.Map({
       container: containerEl,
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/mapbox/navigation-day-v1',
       center: [this.place.longitude, this.place.latitude],
       zoom: 12,
       interactive: false,
     });
 
     this.miniMap.once('load', () => {
-      this.miniMarker = new mapboxgl.Marker()
+      this.miniMarker = new mapboxgl.Marker({
+        color: '#8b5cf6' // 💜 lavanda NatureApp
+      })
         .setLngLat([this.place!.longitude, this.place!.latitude])
         .addTo(this.miniMap!);
+
       // Ajuste por si el contenedor cambió de tamaño al abrir galería/senderos
       this.miniMap!.resize();
     });

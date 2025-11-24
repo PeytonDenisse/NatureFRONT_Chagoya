@@ -1,1 +1,16 @@
 #map { width: 100%; height: calc(100vh - 48px); } /* ocupa la vista dentro del content */
+
+
+.custom-pin {
+  width: 24px;
+  height: 24px;
+  background: #8b5cf6;   /* tu lavanda */
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .3);
+  cursor: pointer;
+}
+
+.custom-pin:hover {
+  transform: scale(1.15);
+}
