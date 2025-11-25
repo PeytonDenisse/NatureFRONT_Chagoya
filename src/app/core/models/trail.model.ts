@@ -6,4 +6,5 @@ export interface TrailDto {
   estimatedTimeMinutes: number;
   difficulty: string;
   isLoop: boolean;
+  path: [number, number][];
 }

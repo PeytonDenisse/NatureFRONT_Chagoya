@@ -101,10 +101,10 @@ export class PlaceDetail implements OnInit, OnDestroy {
 
     this.miniMap.once('load', () => {
       this.miniMarker = new mapboxgl.Marker({
-        color: '#8b5cf6' // 💜 lavanda NatureApp
-      })
-        .setLngLat([this.place!.longitude, this.place!.latitude])
-        .addTo(this.miniMap!);
+      color: '#8b5cf6' // 💜 lavanda NatureApp
+    })
+      .setLngLat([this.place!.longitude, this.place!.latitude])
+      .addTo(this.miniMap!);
 
       // Ajuste por si el contenedor cambió de tamaño al abrir galería/senderos
       this.miniMap!.resize();

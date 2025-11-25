@@ -139,7 +139,7 @@
   flex-direction: column;
 }
 
-/* ----- HERO IMAGEN (SIN MORADO) ----- */
+/* ----- HERO IMAGEN ----- */
 .hero {
   position: relative;
   height: 160px;
@@ -156,7 +156,6 @@
 .hero-overlay {
   position: absolute;
   inset: 0;
-  /* overlay neutro para legibilidad, sin tintes morados */
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.45));
 }
 
@@ -293,81 +292,72 @@
   }
 }
 
-/* ===== TABLA DE SENDEROS ===== */
-.table-wrapper {
-  width: 100%;
-  overflow-x: auto;
-  padding: 10px 18px 16px;
+/* ===== SENDEROS (LISTA VERTICAL) ===== */
+.trails-vertical-list {
+  padding: 10px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.place-trails-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
+.trail-card {
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+  border: 1px solid var(--border-soft);
 }
 
-.place-trails-table thead th {
-  background: #f9fafb;
-  color: #6b7280;
-  text-align: left;
-  padding: 10px 10px;
-  font-size: 11px;
+.trail-title {
+  margin: 0 0 8px 0;
+  font-size: 16px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  border-bottom: 1px solid #e5e7eb;
-  white-space: nowrap;
+  color: var(--text-main);
 }
 
-.place-trails-table tbody td {
-  padding: 11px 12px;
+.trail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 0;
+  font-size: 13px;
+  color: #444;
   border-bottom: 1px solid #f1f5f9;
-  vertical-align: middle;
-  color: #374151;
-  white-space: nowrap;
 }
 
-.place-trails-table tbody tr:nth-child(odd) {
-  background: #f9fafb;
+.trail-row:last-child {
+  border-bottom: none;
 }
 
-.place-trails-table tbody tr:nth-child(even) {
-  background: #ffffff;
+.row-label {
+  font-weight: 600;
+  color: var(--text-main);
 }
 
-.place-trails-table tbody tr:hover {
-  background: #eef2ff;
-  transition: background 0.15s ease;
-}
-
-.place-trails-table td:nth-child(2) {
-  text-align: right;
-}
-
-/* Pills de dificultad mismas dimensiones */
-.place-trails-table .difficulty {
+/* pill dificultad reutilizable */
+.difficulty {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 90px;
-  height: 30px;
-  padding: 0 12px;
+  min-width: 80px;
+  padding: 4px 12px;
   border-radius: 999px;
-  font-weight: 700;
-  font-size: 13px;
   color: #ffffff;
+  font-weight: 700;
+  font-size: 12px;
   white-space: nowrap;
 }
 
-.place-trails-table .difficulty.alta {
+.difficulty.alta {
   background: #ef4444;
 }
 
-.place-trails-table .difficulty.media {
+.difficulty.media {
   background: #f59e0b;
 }
 
-.place-trails-table .difficulty.baja {
+.difficulty.baja {
   background: #22c55e;
 }
 
@@ -434,16 +424,20 @@
 /* ===== MODO OSCURO ===== */
 :host-context(.dark) {
   .pd-panel,
-  .g-item {
+  .g-item,
+  .trail-card {
     background: #111827;
     box-shadow: none;
+    border-color: #020617;
   }
 
   .pd-title,
   .section-title,
   .kv-label,
   .map-title,
-  .panel-header h3 {
+  .panel-header h3,
+  .trail-title,
+  .row-label {
     color: #e5e7eb;
   }
 
@@ -453,14 +447,8 @@
     color: #e5e7eb;
   }
 
-  .place-trails-table thead th {
-    background: #020617;
-    border-color: #020617;
-    color: #e5e7eb;
-  }
-
-  .place-trails-table tbody td {
-    border-color: #020617;
+  .trail-row {
+    border-bottom-color: #020617;
     color: #e5e7eb;
   }
 

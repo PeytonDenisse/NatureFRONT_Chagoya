@@ -50,14 +50,13 @@
     </article>
   </section>
 
-  <!-- ===== GRID PRINCIPAL (INFO + MAPA) ===== -->
+  <!-- ===== GRID PRINCIPAL ===== -->
   <section class="pd-main-grid">
 
     <!-- INFO DEL LUGAR -->
     <article class="pd-panel pd-info">
       <div class="hero">
         <img class="hero-img" [src]="p.photos[0]?.url" [alt]="p.name" />
-        <!-- overlay neutro, sin morado -->
         <div class="hero-overlay"></div>
         <h2 class="hero-title">{{ p.name }}</h2>
       </div>
@@ -80,9 +79,7 @@
         <div class="kv">
           <span class="kv-icon" nz-icon nzType="arrow-up"></span>
           <span class="kv-label">Altitud</span>
-          <span class="kv-value">
-            {{ p.elevationMeters ?? '—' }} m
-          </span>
+          <span class="kv-value">{{ p.elevationMeters ?? '—' }} m</span>
         </div>
 
         <div class="kv">
@@ -132,11 +129,12 @@
         <span class="map-title">Mapa general</span>
         <span class="map-sub">Vista rápida de la ubicación</span>
       </header>
+
       <div id="mini-map" class="mini-map"></div>
     </aside>
   </section>
 
-  <!-- ===== GRID INFERIOR (SENDEROS + GALERÍA) ===== -->
+  <!-- ===== GRID INFERIOR ===== -->
   <section class="pd-bottom-grid">
 
     <!-- SENDEROS -->
@@ -147,37 +145,38 @@
       </header>
 
       <ng-container *ngIf="p.trails?.length; else noTrails">
-        <div class="table-wrapper">
-          <table class="table place-trails-table">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Distancia</th>
-                <th>Dificultad</th>
-                <th>Tiempo estimado</th>
-                <th>Tipo</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let t of p.trails">
-                <td>{{ t.name }}</td>
-                <td>{{ t.distanceKm | number : '1.1-1' }} km</td>
-                <td>
-                  <span class="difficulty" [ngClass]="t.difficulty.toLowerCase()">
-                    {{ t.difficulty }}
-                  </span>
-                </td>
-                <td>
-                  {{
-                    t.estimatedTimeMinutes != null
-                      ? (t.estimatedTimeMinutes + ' min')
-                      : '—'
-                  }}
-                </td>
-                <td>{{ t.isLoop ? 'Loop' : 'Ida y vuelta' }}</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="trails-vertical-list">
+
+          <div class="trail-card" *ngFor="let t of p.trails">
+
+            <h4 class="trail-title">{{ t.name }}</h4>
+
+            <div class="trail-row">
+              <span class="row-label">Distancia:</span>
+              <span>{{ t.distanceKm | number : '1.1-1' }} km</span>
+            </div>
+
+            <div class="trail-row">
+              <span class="row-label">Dificultad:</span>
+              <span class="difficulty" [ngClass]="t.difficulty.toLowerCase()">
+                {{ t.difficulty }}
+              </span>
+            </div>
+
+            <div class="trail-row">
+              <span class="row-label">Tiempo estimado:</span>
+              <span>
+                {{ t.estimatedTimeMinutes ? t.estimatedTimeMinutes + ' min' : '—' }}
+              </span>
+            </div>
+
+            <div class="trail-row">
+              <span class="row-label">Tipo:</span>
+              <span>{{ t.isLoop ? 'Loop' : 'Ida y vuelta' }}</span>
+            </div>
+
+          </div>
+
         </div>
       </ng-container>
 
@@ -195,7 +194,6 @@
 
       <ng-container *ngIf="p.photos && p.photos.length > 1; else noGallery">
         <div class="gallery-grid">
-          <!-- omitimos la primera (portada) -->
           <figure class="g-item" *ngFor="let ph of p.photos; let i = index" [hidden]="i === 0">
             <img
               [src]="ph?.url"
@@ -213,6 +211,7 @@
         <div class="muted">Aún no hay más fotos para este lugar.</div>
       </ng-template>
     </article>
+
   </section>
 </div>
 
