@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PlaceService } from '../../core/services/place.service';
 import { PlaceListDto } from '../../core/models/place-list.model';
-import { AiAnalyzerService } from '../../core/services/ai-analyser.service';;
-
+import { AiAnalyzerService } from '../../core/services/ai-analyser.service';
 import { PlaceAnalysis } from '../../core/models/place-ia-analysis.model';
 
 @Component({
@@ -12,6 +11,7 @@ import { PlaceAnalysis } from '../../core/models/place-ia-analysis.model';
   standalone: false,
 })
 export class Place implements OnInit {
+
   places: PlaceListDto[] = [];
 
   // === IA ANALYTICS ===
@@ -46,7 +46,7 @@ export class Place implements OnInit {
     this.aiService.analyzePlaces().subscribe({
       next: (res) => {
         console.log('[IA Places] análisis recibido:', res);
-        this.placeAnalysis = res;
+        this.placeAnalysis = res;   // 👈 ya es el objeto "ai" plano
         this.iaLoading = false;
       },
       error: (err) => {

@@ -1,12 +1,4 @@
-export interface PlaceAnalysis {
-  summary: PlaceSummary;
-  rankings: PlaceRankings;
-  featured: PlaceFeatured;
-  categoryStats: CategoryStat[];
-  accessibilityStats: AccessibilityStats;
-  patterns: string[];
-}
-
+// ===== RESUMEN GENERAL =====
 export interface PlaceSummary {
   totalPlaces: number;
   totalReviews: number;
@@ -16,12 +8,6 @@ export interface PlaceSummary {
 }
 
 // ===== RANKINGS =====
-export interface PlaceRankings {
-  topRatedOverall: TopRatedPlace[];
-  bestForHiking: BestForHikingPlace[];
-  mostPopular: MostPopularPlace[];
-}
-
 export interface TopRatedPlace {
   id: number;
   name: string;
@@ -43,13 +29,13 @@ export interface MostPopularPlace {
   averageRating: number;
 }
 
-// ===== FEATURED =====
-export interface PlaceFeatured {
-  hiddenGems: HiddenGem[];
-  topFreePlaces: TopFreePlace[];
-  accessibleHighlights: AccessibleHighlight[];
+export interface PlaceRankings {
+  topRatedOverall: TopRatedPlace[];
+  bestForHiking: BestForHikingPlace[];
+  mostPopular: MostPopularPlace[];
 }
 
+// ===== FEATURED =====
 export interface HiddenGem {
   id: number;
   name: string;
@@ -71,6 +57,12 @@ export interface AccessibleHighlight {
   accessible: boolean;
 }
 
+export interface PlaceFeatured {
+  hiddenGems: HiddenGem[];
+  topFreePlaces: TopFreePlace[];
+  accessibleHighlights: AccessibleHighlight[];
+}
+
 // ===== CATEGORY & ACCESSIBILITY =====
 export interface CategoryStat {
   category: string;
@@ -82,4 +74,33 @@ export interface CategoryStat {
 export interface AccessibilityStats {
   accessiblePlaces: number;
   nonAccessiblePlaces: number;
+}
+
+// ===== OBJETO PRINCIPAL QUE USA EL MODAL =====
+export interface PlaceAnalysis {
+  summary: PlaceSummary;
+  rankings: PlaceRankings;
+  featured: PlaceFeatured;
+  categoryStats: CategoryStat[];
+  accessibilityStats: AccessibilityStats;
+  patterns: string[];
+}
+
+// ===== ENVOLTORIO REAL QUE MANDA LA API =====
+export interface PlaceAnalysisApiResponse {
+  ai: PlaceAnalysis;
+  heroPlaces: HeroPlace[];
+}
+
+// Si luego quieres usar heroPlaces en el front, ya está tipado:
+export interface HeroPlace {
+  id: number;
+  name: string;
+  category: string;
+  averageRating: number;
+  reviewCount: number;
+  trailCount: number;
+  mainPhotoUrl: string | null;
+  latitude: number;
+  longitude: number;
 }

@@ -1,9 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
-import { PlaceAnalysis } from '../models/place-ia-analysis.model';
+import {
+  PlaceAnalysis,
+  PlaceAnalysisApiResponse
+} from '../models/place-ia-analysis.model';
 import { TrailAnalysis } from '../models/trail-ia-analysis.model';
 
 @Injectable({
@@ -12,15 +15,17 @@ import { TrailAnalysis } from '../models/trail-ia-analysis.model';
 export class AiAnalyzerService {
 
   private http = inject(HttpClient);
-  private base = environment.API_URL;
+  private base = environment.API_URL; // ej: http://18.188.37.201:8080/api
 
   analyzePlaces(): Observable<PlaceAnalysis> {
-    return this.http.get<PlaceAnalysis>(`${this.base}/Places/ai-analyzi`);
+    return this.http
+      .get<PlaceAnalysisApiResponse>(`${this.base}/places/ai-analyzi`)
+      .pipe(
+        map(res => res.ai)   // 👈 solo regresamos el objeto "ai"
+      );
   }
 
   analyzeTrails(): Observable<TrailAnalysis> {
-    return this.http.get<TrailAnalysis>(`${this.base}/Trails/ai-analyze`);
+    return this.http.get<TrailAnalysis>(`${this.base}/trails/ai-analyze`);
   }
 }
-
-
